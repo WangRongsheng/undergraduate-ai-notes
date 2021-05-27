@@ -1,0 +1,1583 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      <meta http-equiv="x-ua-compatible" content="ie=edge">
+      
+        <meta name="description" content="越努力越幸运">
+      
+      
+        <link rel="canonical" href="https://github.com/WangRongsheng/ai/tdxj/">
+      
+      
+        <meta name="author" content="王荣胜">
+      
+      
+        <meta name="lang:clipboard.copy" content="复制">
+      
+        <meta name="lang:clipboard.copied" content="已复制">
+      
+        <meta name="lang:search.language" content="zh">
+      
+        <meta name="lang:search.pipeline.stopwords" content="True">
+      
+        <meta name="lang:search.pipeline.trimmer" content="True">
+      
+        <meta name="lang:search.result.none" content="没有找到符合条件的结果">
+      
+        <meta name="lang:search.result.one" content="找到 1 个符合条件的结果">
+      
+        <meta name="lang:search.result.other" content="# 个符合条件的结果">
+      
+        <meta name="lang:search.tokenizer" content="[\uff0c\u3002]+">
+      
+      <link rel="shortcut icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-3.0.6">
+    
+    
+      
+        <title>1. 梯度下降算法 - 教书的先生</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/application.451f80e5.css">
+      
+        <link rel="stylesheet" href="../../assets/stylesheets/application-palette.22915126.css">
+      
+      
+        
+        
+        <meta name="theme-color" content="#3f51b5">
+      
+    
+    
+      <script src="../../assets/javascripts/modernizr.1aa3b519.js"></script>
+    
+    
+      
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700|Roboto+Mono">
+        <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
+      
+    
+    <link rel="stylesheet" href="../../assets/fonts/material-icons.css">
+    
+      <link rel="stylesheet" href="../../_static/extra.css">
+    
+    
+  </head>
+  
+    
+    
+    <body dir="ltr" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    <svg class="md-svg">
+      <defs>
+        
+        
+          <svg xmlns="http://www.w3.org/2000/svg" width="416" height="448"
+    viewBox="0 0 416 448" id="__github">
+  <path fill="currentColor" d="M160 304q0 10-3.125 20.5t-10.75 19-18.125
+        8.5-18.125-8.5-10.75-19-3.125-20.5 3.125-20.5 10.75-19 18.125-8.5
+        18.125 8.5 10.75 19 3.125 20.5zM320 304q0 10-3.125 20.5t-10.75
+        19-18.125 8.5-18.125-8.5-10.75-19-3.125-20.5 3.125-20.5 10.75-19
+        18.125-8.5 18.125 8.5 10.75 19 3.125 20.5zM360
+        304q0-30-17.25-51t-46.75-21q-10.25 0-48.75 5.25-17.75 2.75-39.25
+        2.75t-39.25-2.75q-38-5.25-48.75-5.25-29.5 0-46.75 21t-17.25 51q0 22 8
+        38.375t20.25 25.75 30.5 15 35 7.375 37.25 1.75h42q20.5 0
+        37.25-1.75t35-7.375 30.5-15 20.25-25.75 8-38.375zM416 260q0 51.75-15.25
+        82.75-9.5 19.25-26.375 33.25t-35.25 21.5-42.5 11.875-42.875 5.5-41.75
+        1.125q-19.5 0-35.5-0.75t-36.875-3.125-38.125-7.5-34.25-12.875-30.25-20.25-21.5-28.75q-15.5-30.75-15.5-82.75
+        0-59.25 34-99-6.75-20.5-6.75-42.5 0-29 12.75-54.5 27 0 47.5 9.875t47.25
+        30.875q36.75-8.75 77.25-8.75 37 0 70 8 26.25-20.5
+        46.75-30.25t47.25-9.75q12.75 25.5 12.75 54.5 0 21.75-6.75 42 34 40 34
+        99.5z" />
+</svg>
+        
+      </defs>
+    </svg>
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
+    
+      <a href="#_1" tabindex="1" class="md-skip">
+        跳转至
+      </a>
+    
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid">
+    <div class="md-flex">
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <a href="https://github.com/WangRongsheng" title="教书的先生" class="md-header-nav__button md-logo">
+          
+            <i class="md-icon"></i>
+          
+        </a>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <label class="md-icon md-icon--menu md-header-nav__button" for="__drawer"></label>
+      </div>
+      <div class="md-flex__cell md-flex__cell--stretch">
+        <div class="md-flex__ellipsis md-header-nav__title" data-md-component="title">
+          
+            
+              <span class="md-header-nav__topic">
+                教书的先生
+              </span>
+              <span class="md-header-nav__topic">
+                1. 梯度下降算法
+              </span>
+            
+          
+        </div>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        
+          
+            <label class="md-icon md-icon--search md-header-nav__button" for="__search"></label>
+            
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query" data-md-state="active">
+      <label class="md-icon md-search__icon" for="__search"></label>
+      <button type="reset" class="md-icon md-search__icon" data-md-component="reset" tabindex="-1">
+        &#xE5CD;
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="result">
+          <div class="md-search-result__meta">
+            键入以开始搜索
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+          
+        
+      </div>
+      
+        <div class="md-flex__cell md-flex__cell--shrink">
+          <div class="md-header-nav__source">
+            
+
+
+  
+
+
+  <a href="https://github.com/WangRongsheng/" title="前往 Github 仓库" class="md-source" data-md-source="github">
+    
+      <div class="md-source__icon">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+          <use xlink:href="#__github" width="24" height="24"></use>
+        </svg>
+      </div>
+    
+    <div class="md-source__repository">
+      GitHub
+    </div>
+  </a>
+
+          </div>
+        </div>
+      
+    </div>
+  </nav>
+</header>
+    
+    <div class="md-container">
+      
+        
+      
+      
+        
+
+  
+
+<nav class="md-tabs md-tabs--active" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../.." title="介绍" class="md-tabs__link">
+          介绍
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../knn/" title="机器学习" class="md-tabs__link">
+          机器学习
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="./" title="深度学习" class="md-tabs__link md-tabs__link--active">
+          深度学习
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../question/pj/" title="知识点" class="md-tabs__link">
+          知识点
+        </a>
+      
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+      
+      <main class="md-main">
+        <div class="md-main__inner md-grid" data-md-component="container">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <nav class="md-nav md-nav--primary" data-md-level="0">
+  <label class="md-nav__title md-nav__title--site" for="__drawer">
+    <a href="https://github.com/WangRongsheng" title="教书的先生" class="md-nav__button md-logo">
+      
+        <i class="md-icon"></i>
+      
+    </a>
+    教书的先生
+  </label>
+  
+    <div class="md-nav__source">
+      
+
+
+  
+
+
+  <a href="https://github.com/WangRongsheng/" title="前往 Github 仓库" class="md-source" data-md-source="github">
+    
+      <div class="md-source__icon">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+          <use xlink:href="#__github" width="24" height="24"></use>
+        </svg>
+      </div>
+    
+    <div class="md-source__repository">
+      GitHub
+    </div>
+  </a>
+
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-1" type="checkbox" id="nav-1">
+    
+    <label class="md-nav__link" for="nav-1">
+      介绍
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-1">
+        介绍
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../.." title="介绍" class="md-nav__link">
+      介绍
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../about/" title="关于" class="md-nav__link">
+      关于
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tj/" title="信息" class="md-nav__link">
+      信息
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2">
+    
+    <label class="md-nav__link" for="nav-2">
+      机器学习
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-2">
+        机器学习
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../knn/" title="1. K-最近邻算法" class="md-nav__link">
+      1. K-最近邻算法
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../k-means/" title="2. K-均值算法" class="md-nav__link">
+      2. K-均值算法
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../mf/" title="3. 基于矩阵分解的推荐系统" class="md-nav__link">
+      3. 基于矩阵分解的推荐系统
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../usercf/" title="4. 基于用户的协同过滤" class="md-nav__link">
+      4. 基于用户的协同过滤
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../itemcf/" title="5. 基于项目的协同过滤" class="md-nav__link">
+      5. 基于项目的协同过滤
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../psbys/" title="6. 朴素贝叶斯分类" class="md-nav__link">
+      6. 朴素贝叶斯分类
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../bpr/" title="7. 贝叶斯个性化排序" class="md-nav__link">
+      7. 贝叶斯个性化排序
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../jcs/" title="8. 决策树" class="md-nav__link">
+      8. 决策树
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../sjsl/" title="9. 随机森林" class="md-nav__link">
+      9. 随机森林
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3" checked>
+    
+    <label class="md-nav__link" for="nav-3">
+      深度学习
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-3">
+        深度学习
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        1. 梯度下降算法
+      </label>
+    
+    <a href="./" title="1. 梯度下降算法" class="md-nav__link md-nav__link--active">
+      1. 梯度下降算法
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">目录</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_2" title="介绍" class="md-nav__link">
+    介绍
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" title="推导" class="md-nav__link">
+    推导
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" title="梯度下降算法变种" class="md-nav__link">
+    梯度下降算法变种
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1batch-gradient-descent-bgd" title="1.Batch gradient descent (BGD)" class="md-nav__link">
+    1.Batch gradient descent (BGD)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2stochastic-gradient-descent-sgd" title="2.Stochastic gradient descent (SGD)" class="md-nav__link">
+    2.Stochastic gradient descent (SGD)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3mini-batch-gradient-descent-mbgd" title="3.Mini-batch gradient descent (MBGD)" class="md-nav__link">
+    3.Mini-batch gradient descent (MBGD)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" title="挑战" class="md-nav__link">
+    挑战
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" title="梯度下降优化算法" class="md-nav__link">
+    梯度下降优化算法
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" title="代码练习" class="md-nav__link">
+    代码练习
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bgd" title="批量梯度下降(BGD)" class="md-nav__link">
+    批量梯度下降(BGD)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sgd" title="随机梯度下降(SGD)" class="md-nav__link">
+    随机梯度下降(SGD)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mbgd" title="小批量梯度下降(MBGD)" class="md-nav__link">
+    小批量梯度下降(MBGD)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../ANN/" title="2. 神经网络算法" class="md-nav__link">
+      2. 神经网络算法
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../jj/" title="3. 卷积神经网络" class="md-nav__link">
+      3. 卷积神经网络
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../rnn/" title="4. 循环神经网络" class="md-nav__link">
+      4. 循环神经网络
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../lstm/" title="5. 长短时记忆网络" class="md-nav__link">
+      5. 长短时记忆网络
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../dg/" title="6. 递归神经网络" class="md-nav__link">
+      6. 递归神经网络
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4">
+    
+    <label class="md-nav__link" for="nav-4">
+      知识点
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-4">
+        知识点
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../question/pj/" title="1. 评价指标" class="md-nav__link">
+      1. 评价指标
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../question/txtz/" title="2. 梯度消失与爆炸" class="md-nav__link">
+      2. 梯度消失与爆炸
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../question/cwpd/" title="3. Loss分析" class="md-nav__link">
+      3. Loss分析
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../question/sjc/" title="4. 时间戳" class="md-nav__link">
+      4. 时间戳
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../question/losshs/" title="5. 损失函数" class="md-nav__link">
+      5. 损失函数
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../question/ad/" title="6. 鞍点" class="md-nav__link">
+      6. 鞍点
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../question/bn/" title="7. BN层" class="md-nav__link">
+      7. BN层
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../question/h5/" title="8. H5文件" class="md-nav__link">
+      8. H5文件
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../question/meta-path/" title="9. Meta Path" class="md-nav__link">
+      9. Meta Path
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">目录</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_2" title="介绍" class="md-nav__link">
+    介绍
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" title="推导" class="md-nav__link">
+    推导
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" title="梯度下降算法变种" class="md-nav__link">
+    梯度下降算法变种
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1batch-gradient-descent-bgd" title="1.Batch gradient descent (BGD)" class="md-nav__link">
+    1.Batch gradient descent (BGD)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2stochastic-gradient-descent-sgd" title="2.Stochastic gradient descent (SGD)" class="md-nav__link">
+    2.Stochastic gradient descent (SGD)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3mini-batch-gradient-descent-mbgd" title="3.Mini-batch gradient descent (MBGD)" class="md-nav__link">
+    3.Mini-batch gradient descent (MBGD)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" title="挑战" class="md-nav__link">
+    挑战
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" title="梯度下降优化算法" class="md-nav__link">
+    梯度下降优化算法
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" title="代码练习" class="md-nav__link">
+    代码练习
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bgd" title="批量梯度下降(BGD)" class="md-nav__link">
+    批量梯度下降(BGD)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sgd" title="随机梯度下降(SGD)" class="md-nav__link">
+    随机梯度下降(SGD)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mbgd" title="小批量梯度下降(MBGD)" class="md-nav__link">
+    小批量梯度下降(MBGD)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                  <a href="https://github.com/WangRongsheng/edit/master/docs/ai/tdxj.md" title="编辑此页" class="md-icon md-content__icon">&#xE3C9;</a>
+                
+                
+                <h1 id="_1">梯度下降算法概述<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
+<h2 id="_2">介绍<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<p>梯度下降法（gradient descent），又名最速下降法（steepest descent）是求解无约束最优化问题最常用的方法，它是一种迭代方法，每一步主要的操作是求解目标函数的梯度向量，将当前位置的负梯度方向作为搜索方向（因为在该方向上目标函数下降最快，这也是最速下降法名称的由来）。</p>
+<p>梯度下降法特点：越接近目标值，步长越小，下降速度越慢。</p>
+<p><center><img alt="gd1.png" src="https://i.loli.net/2019/08/12/ipYSuqocznWmAUs.png" /></center></p>
+<p>这里每一个圈代表一个函数梯度，最中心表示函数极值点，每次迭代根据当前位置求得的梯度（用于确定搜索方向以及与步长共同决定前进速度）和步长找到一个新的位置，这样不断迭代最终到达目标函数局部最优点（如果目标函数是凸函数，则到达全局最优点）。</p>
+<p>我们更加直观清晰的说明梯度下降,其实就是一个公式:</p>
+<p><center><img alt="gd2.png" src="https://i.loli.net/2019/08/12/B3pk5ubETxirCnS.png" /></center></p>
+<p>上面的公式这个位置更新公式,说白了，就是你每走一步，就记录下你现在的位置，也就是等号左边的θi,那么走一步走多远呐？答案应该是α，那你要朝哪个方向走呢？答案是J(θ)关于θi的偏导数。</p>
+<p><strong>说明:</strong></p>
+<p>在这里我们区分下经常用的函数:</p>
+<ol>
+<li>
+<p>损失函数（Loss Function ）是定义在单个样本上的，算的是一个样本的误差。</p>
+</li>
+<li>
+<p>代价函数（Cost Function ）是定义在整个训练集上的，是所有样本误差的平均，也就是损失函数的平均。</p>
+</li>
+<li>
+<p>目标函数（Object Function）定义为：最终需要优化的函数。等于经验风险+结构风险（也就是Cost Function + 正则化项）。</p>
+</li>
+</ol>
+<p>而在梯度下降中用到的J(θ)就是这里面的损失函数。</p>
+<h2 id="_3">推导<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<p>说明:</p>
+<ol>
+<li>
+<p>在这里我们用含两个简单参数θ0和θ1的线性回归函数为例进行推导。</p>
+</li>
+<li>
+<p>推导用到的知识:<a href="https://baike.sogou.com/v399392.htm?fromTitle=偏导数">偏导数</a></p>
+</li>
+</ol>
+<p><center><img alt="gd.png" src="https://i.loli.net/2019/08/12/whRuembzs69xDTK.jpg" /></center></p>
+<h2 id="_4">梯度下降算法变种<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
+<p>梯度下降算法主要有三种变种，主要区别在于使用多少数据来计算目标函数的梯度。 不同方法主要在准确性和优化速度间做权衡。</p>
+<h3 id="1batch-gradient-descent-bgd">1.Batch gradient descent (BGD)<a class="headerlink" href="#1batch-gradient-descent-bgd" title="Permanent link">&para;</a></h3>
+<p>批量梯度下降算法(BGD),其需要计算<strong>整个训练集的梯度</strong>，即：</p>
+<p><center><img alt="bgd.png" src="https://i.loli.net/2019/08/12/zAiXFLUSyrd5qap.png" /></center></p>
+<p>其中η为学习率，用来控制更新的“力度”/"步长"。</p>
+<ul>
+<li>优点：</li>
+</ul>
+<p>对于凸目标函数，可以保证全局最优； 对于非凸目标函数，可以保证一个局部最优。</p>
+<ul>
+<li>缺点：</li>
+</ul>
+<p>速度慢; 数据量大时不可行; 无法在线优化(即无法处理动态产生的新样本)。</p>
+<h3 id="2stochastic-gradient-descent-sgd">2.Stochastic gradient descent (SGD)<a class="headerlink" href="#2stochastic-gradient-descent-sgd" title="Permanent link">&para;</a></h3>
+<p>随机梯度下降算法(SGD),仅计算<strong>某个样本的梯度</strong>，即针对某一个训练样本 xi及其label yi更新参数：</p>
+<p><center><img alt="sgd.png" src="https://i.loli.net/2019/08/12/SfrnQYNWDy7haKH.png" /></center></p>
+<p>逐步减小学习率，SGD表现得同BGD很相似，最后都可以有不错的收敛。</p>
+<ul>
+<li>优点：</li>
+</ul>
+<p>更新频次快，优化速度更快; 可以在线优化(可以无法处理动态产生的新样本)；一定的随机性导致有几率跳出局部最优(随机性来自于用一个样本的梯度去代替整体样本的梯度)。</p>
+<ul>
+<li>缺点：</li>
+</ul>
+<p>随机性可能导致收敛复杂化，即使到达最优点仍然会进行过度优化，因此SGD得优化过程相比BGD充满动荡。</p>
+<h3 id="3mini-batch-gradient-descent-mbgd">3.Mini-batch gradient descent (MBGD)<a class="headerlink" href="#3mini-batch-gradient-descent-mbgd" title="Permanent link">&para;</a></h3>
+<p>小批量梯度下降算法(MBGD),计算<strong>包含n个样本的mini-batch的梯度</strong>：</p>
+<p><center><img alt="mbgd.png" src="https://i.loli.net/2019/08/12/ItgcSRaT4jreKMl.png" /></center></p>
+<p>MBGD是训练神经网络最常用的优化方法。</p>
+<ul>
+<li>优点：</li>
+</ul>
+<p>参数更新时的动荡变小，收敛过程更稳定，降低收敛难度；可以利用现有的线性代数库高效的计算多个样本的梯度。</p>
+<h2 id="_5">挑战<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
+<p>由<u>梯度下降算法变种</u>来看， Mini-batch gradient descent (MBGD) 是一种相对较好的策略，但同样不能保证一个最优解。此外，这里还存在很多问题需要处理：</p>
+<p>1） 如何选择合适的学习率？</p>
+<p>学习率过小导致收敛太慢，过大又导致收敛动荡甚至偏离最优点。</p>
+<p>2） 如何确定学习率的调整策略？</p>
+<p>目前调整学习率基本都按照一种 “退火”的思想，要么按照预定模式调整，要么根据目标函数值的变化是否满足阈值动态改变学习率。 但是，“模式”和“阈值”都需要事先指定，无法自适应不同数据集。</p>
+<p>3） 对所有参数的更新采用相同的学习率是否恰当？</p>
+<p>如果数据是稀疏的且特征分布不均，似乎我们更应该给予较少出现的特征一个大的更新。</p>
+<p>4） 如何跳出局部最优？</p>
+<p>理论上只有严格的凸函数才可以通过梯度下降获得全局最优解。 但是，神经网络所面临的基本上都是严重非凸的目标函数，这也意味着优化容易陷入局部最优。 事实上，我们的困难往往来自 “鞍点” 而非局部极小点。 鞍点周围通常拥有相同的损失函数值，这导致SGD很难发挥作用，因为每个方向的梯度都接近于0.</p>
+<h2 id="_6">梯度下降优化算法<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
+<p>下面说一些在深度学习中常用的用以解决上述问题的梯度下降优化方法。 一些对高维数据不可行的方法不再讨论，如二阶方法中的牛顿法。</p>
+<ol>
+<li>
+<p>Momentum</p>
+</li>
+<li>
+<p>Nesterov accelerated gradient</p>
+</li>
+<li>
+<p>Adagrad</p>
+</li>
+<li>
+<p>Adadelta</p>
+</li>
+<li>
+<p>RMSprop</p>
+</li>
+<li>
+<p>Adam</p>
+</li>
+<li>
+<p>AdaMax</p>
+</li>
+</ol>
+<p>所有以上优化算法,由于博主研究不深入,感兴趣的可以去<a href="https://blog.csdn.net/shuzfan/article/details/75675568#4-梯度下降优化算法">梯度下降优化算法总结</a>进行详细的学习。</p>
+<h2 id="_7">代码练习<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h2>
+<h3 id="bgd">批量梯度下降(BGD)<a class="headerlink" href="#bgd" title="Permanent link">&para;</a></h3>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="c1">#引库</span>
+<span class="c1">#引入matplotlib库,用于画图</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="nb">pow</span>
+<span class="c1">#图片嵌入jupyter</span>
+<span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
+
+<span class="c1">#为了便于取用数据,我们将数据分为x,y,在直角坐标系中(x,y)是点</span>
+<span class="n">x</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">]</span>
+<span class="n">y</span> <span class="o">=</span> <span class="p">[</span><span class="mi">13</span><span class="p">,</span><span class="mi">14</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">21</span><span class="p">,</span><span class="mi">25</span><span class="p">,</span><span class="mi">30</span><span class="p">]</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;打印初始数据图...&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;X&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Y&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1">#超参数设定</span>
+<span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.01</span><span class="c1">#学习率/步长</span>
+<span class="n">theta0</span> <span class="o">=</span> <span class="mi">0</span><span class="c1">#θ0</span>
+<span class="n">theta1</span> <span class="o">=</span> <span class="mi">0</span><span class="c1">#θ1</span>
+<span class="n">epsilon</span> <span class="o">=</span> <span class="mf">0.001</span><span class="c1">#误差</span>
+<span class="n">m</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+<span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">loss</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">time</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1000</span><span class="p">):</span>
+    <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="c1">#求偏导theta0和theta1的结果</span>
+    <span class="n">temp0</span> <span class="o">=</span> <span class="mi">0</span><span class="c1">#J(θ)对θ0求导的结果</span>
+    <span class="n">temp1</span> <span class="o">=</span> <span class="mi">0</span><span class="c1">#J(θ)对θ1求导的结果</span>
+    <span class="n">diss</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">m</span><span class="p">):</span>
+        <span class="n">temp0</span> <span class="o">+=</span> <span class="p">(</span><span class="n">theta0</span><span class="o">+</span><span class="n">theta1</span><span class="o">*</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">-</span><span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="o">/</span><span class="n">m</span>
+        <span class="n">temp1</span> <span class="o">+=</span> <span class="p">((</span><span class="n">theta0</span><span class="o">+</span><span class="n">theta1</span><span class="o">*</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">-</span><span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="o">/</span><span class="n">m</span><span class="p">)</span><span class="o">*</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+
+    <span class="c1">#更新theta0和theta1</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">m</span><span class="p">):</span>
+        <span class="n">theta0</span> <span class="o">=</span> <span class="n">theta0</span> <span class="o">-</span> <span class="n">alpha</span><span class="o">*</span><span class="p">((</span><span class="n">theta0</span><span class="o">+</span><span class="n">theta1</span><span class="o">*</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">-</span><span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="o">/</span><span class="n">m</span><span class="p">)</span> 
+        <span class="n">theta1</span> <span class="o">=</span> <span class="n">theta1</span> <span class="o">-</span> <span class="n">alpha</span><span class="o">*</span><span class="p">((</span><span class="n">theta0</span><span class="o">+</span><span class="n">theta1</span><span class="o">*</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">-</span><span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="o">/</span><span class="n">m</span><span class="p">)</span><span class="o">*</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+
+    <span class="c1">#求损失函数J(θ)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">m</span><span class="p">):</span>
+        <span class="n">diss</span> <span class="o">=</span> <span class="n">diss</span> <span class="o">+</span> <span class="mf">0.5</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">m</span><span class="p">)</span><span class="o">*</span><span class="nb">pow</span><span class="p">((</span><span class="n">theta0</span><span class="o">+</span><span class="n">theta1</span><span class="o">*</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">-</span><span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]),</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">loss</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">diss</span><span class="p">)</span>
+
+    <span class="c1">#看是否满足条件</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    if diss&lt;=epsilon:</span>
+<span class="sd">        break</span>
+<span class="sd">    else:</span>
+<span class="sd">        continue</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;最终的结果为:&quot;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;此次迭代次数为:{}次,最终theta0的结果为:{},最终theta1的结果为:{}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">count</span><span class="p">,</span><span class="n">theta0</span><span class="p">,</span><span class="n">theta1</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;预测的最终回归函数为:y={}+{}x</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">theta0</span><span class="p">,</span><span class="n">theta1</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;迭代图像绘制...&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">count</span><span class="p">),</span><span class="n">loss</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</td></tr></table>
+
+<details class="note"><summary>批量梯度下降运行结果查看</summary><p><img alt="yx1.png" src="https://i.loli.net/2019/08/15/UOFrEixoQfZ3B7u.png" /></p>
+</details>
+<h3 id="sgd">随机梯度下降(SGD)<a class="headerlink" href="#sgd" title="Permanent link">&para;</a></h3>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="c1">#引库</span>
+<span class="c1">#引入matplotlib库,用于画图</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="nb">pow</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="c1">#图片嵌入jupyter</span>
+<span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
+
+<span class="c1">#为了便于取用数据,我们将数据分为x,y,在直角坐标系中(x,y)是点</span>
+<span class="n">x</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">]</span>
+<span class="n">y</span> <span class="o">=</span> <span class="p">[</span><span class="mi">13</span><span class="p">,</span><span class="mi">14</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">21</span><span class="p">,</span><span class="mi">25</span><span class="p">,</span><span class="mi">30</span><span class="p">]</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;打印初始数据图...&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;X&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Y&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1">#超参数设定</span>
+<span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.01</span><span class="c1">#学习率/步长</span>
+<span class="n">theta0</span> <span class="o">=</span> <span class="mi">0</span><span class="c1">#θ0</span>
+<span class="n">theta1</span> <span class="o">=</span> <span class="mi">0</span><span class="c1">#θ1</span>
+<span class="n">epsilon</span> <span class="o">=</span> <span class="mf">0.001</span><span class="c1">#误差</span>
+<span class="n">m</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+<span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">loss</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">time</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1000</span><span class="p">):</span>
+    <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="n">diss</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="c1">#求偏导theta0和theta1的结果</span>
+    <span class="n">temp0</span> <span class="o">=</span> <span class="mi">0</span><span class="c1">#J(θ)对θ0求导的结果</span>
+    <span class="n">temp1</span> <span class="o">=</span> <span class="mi">0</span><span class="c1">#J(θ)对θ1求导的结果</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">m</span><span class="p">):</span>
+        <span class="n">temp0</span> <span class="o">+=</span> <span class="p">(</span><span class="n">theta0</span><span class="o">+</span><span class="n">theta1</span><span class="o">*</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">-</span><span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="o">/</span><span class="n">m</span>
+        <span class="n">temp1</span> <span class="o">+=</span> <span class="p">((</span><span class="n">theta0</span><span class="o">+</span><span class="n">theta1</span><span class="o">*</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">-</span><span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="o">/</span><span class="n">m</span><span class="p">)</span><span class="o">*</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+
+    <span class="c1">#更新theta0和theta1</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">m</span><span class="p">):</span>
+        <span class="n">theta0</span> <span class="o">=</span> <span class="n">theta0</span> <span class="o">-</span> <span class="n">alpha</span><span class="o">*</span><span class="p">((</span><span class="n">theta0</span><span class="o">+</span><span class="n">theta1</span><span class="o">*</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">-</span><span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="o">/</span><span class="n">m</span><span class="p">)</span> 
+        <span class="n">theta1</span> <span class="o">=</span> <span class="n">theta1</span> <span class="o">-</span> <span class="n">alpha</span><span class="o">*</span><span class="p">((</span><span class="n">theta0</span><span class="o">+</span><span class="n">theta1</span><span class="o">*</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">-</span><span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="o">/</span><span class="n">m</span><span class="p">)</span><span class="o">*</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+
+    <span class="c1">#求损失函数J(θ)</span>
+    <span class="n">rand_i</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">m</span><span class="p">)</span>
+    <span class="n">diss</span> <span class="o">+=</span> <span class="mf">0.5</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">m</span><span class="p">)</span><span class="o">*</span><span class="nb">pow</span><span class="p">((</span><span class="n">theta0</span><span class="o">+</span><span class="n">theta1</span><span class="o">*</span><span class="n">x</span><span class="p">[</span><span class="n">rand_i</span><span class="p">]</span><span class="o">-</span><span class="n">y</span><span class="p">[</span><span class="n">rand_i</span><span class="p">]),</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">loss</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">diss</span><span class="p">)</span>
+
+    <span class="c1">#看是否满足条件</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    if diss&lt;=epsilon:</span>
+<span class="sd">        break</span>
+<span class="sd">    else:</span>
+<span class="sd">        continue</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;最终的结果为:&quot;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;此次迭代次数为:{}次,最终theta0的结果为:{},最终theta1的结果为:{}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">count</span><span class="p">,</span><span class="n">theta0</span><span class="p">,</span><span class="n">theta1</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;预测的最终回归函数为:y={}+{}x</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">theta0</span><span class="p">,</span><span class="n">theta1</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;迭代图像绘制...&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">count</span><span class="p">),</span><span class="n">loss</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</td></tr></table>
+
+<details class="note"><summary>随机梯度下降运行结果查看</summary><p><img alt="yx2.png" src="https://i.loli.net/2019/08/15/OH273CTSxFL9yD8.png" /></p>
+</details>
+<h3 id="mbgd">小批量梯度下降(MBGD)<a class="headerlink" href="#mbgd" title="Permanent link">&para;</a></h3>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="c1">#引库</span>
+<span class="c1">#引入matplotlib库,用于画图</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="nb">pow</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="c1">#图片嵌入jupyter</span>
+<span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
+
+<span class="c1">#为了便于取用数据,我们将数据分为x,y,在直角坐标系中(x,y)是点</span>
+<span class="n">x</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">]</span>
+<span class="n">y</span> <span class="o">=</span> <span class="p">[</span><span class="mi">13</span><span class="p">,</span><span class="mi">14</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">21</span><span class="p">,</span><span class="mi">25</span><span class="p">,</span><span class="mi">30</span><span class="p">]</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;打印初始数据图...&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;X&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Y&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1">#超参数设定</span>
+<span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.01</span><span class="c1">#学习率/步长</span>
+<span class="n">theta0</span> <span class="o">=</span> <span class="mi">0</span><span class="c1">#θ0</span>
+<span class="n">theta1</span> <span class="o">=</span> <span class="mi">0</span><span class="c1">#θ1</span>
+<span class="n">epsilon</span> <span class="o">=</span> <span class="mf">0.001</span><span class="c1">#误差</span>
+<span class="n">diss</span> <span class="o">=</span> <span class="mi">0</span><span class="c1">#损失函数</span>
+<span class="n">m</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+<span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">loss</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">time</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1000</span><span class="p">):</span>
+    <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="n">diss</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="c1">#求偏导theta0和theta1的结果</span>
+    <span class="n">temp0</span> <span class="o">=</span> <span class="mi">0</span><span class="c1">#J(θ)对θ0求导的结果</span>
+    <span class="n">temp1</span> <span class="o">=</span> <span class="mi">0</span><span class="c1">#J(θ)对θ1求导的结果</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">m</span><span class="p">):</span>
+        <span class="n">temp0</span> <span class="o">+=</span> <span class="p">(</span><span class="n">theta0</span><span class="o">+</span><span class="n">theta1</span><span class="o">*</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">-</span><span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="o">/</span><span class="n">m</span>
+        <span class="n">temp1</span> <span class="o">+=</span> <span class="p">((</span><span class="n">theta0</span><span class="o">+</span><span class="n">theta1</span><span class="o">*</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">-</span><span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="o">/</span><span class="n">m</span><span class="p">)</span><span class="o">*</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+
+    <span class="c1">#更新theta0和theta1</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">m</span><span class="p">):</span>
+        <span class="n">theta0</span> <span class="o">=</span> <span class="n">theta0</span> <span class="o">-</span> <span class="n">alpha</span><span class="o">*</span><span class="p">((</span><span class="n">theta0</span><span class="o">+</span><span class="n">theta1</span><span class="o">*</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">-</span><span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="o">/</span><span class="n">m</span><span class="p">)</span> 
+        <span class="n">theta1</span> <span class="o">=</span> <span class="n">theta1</span> <span class="o">-</span> <span class="n">alpha</span><span class="o">*</span><span class="p">((</span><span class="n">theta0</span><span class="o">+</span><span class="n">theta1</span><span class="o">*</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">-</span><span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="o">/</span><span class="n">m</span><span class="p">)</span><span class="o">*</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+
+    <span class="c1">#求损失函数J(θ)</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+        <span class="n">rand_i</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">m</span><span class="p">)</span>
+        <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">rand_i</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">result</span><span class="p">:</span>
+        <span class="n">diss</span> <span class="o">+=</span> <span class="mf">0.5</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">m</span><span class="p">)</span><span class="o">*</span><span class="nb">pow</span><span class="p">((</span><span class="n">theta0</span><span class="o">+</span><span class="n">theta1</span><span class="o">*</span><span class="n">x</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">-</span><span class="n">y</span><span class="p">[</span><span class="n">j</span><span class="p">]),</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">loss</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">diss</span><span class="p">)</span>
+
+    <span class="c1">#看是否满足条件</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    if diss&lt;=epsilon:</span>
+<span class="sd">        break</span>
+<span class="sd">    else:</span>
+<span class="sd">        continue</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;最终的结果为:&quot;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;此次迭代次数为:{}次,最终theta0的结果为:{},最终theta1的结果为:{}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">count</span><span class="p">,</span><span class="n">theta0</span><span class="p">,</span><span class="n">theta1</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;预测的最终回归函数为:y={}+{}x</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">theta0</span><span class="p">,</span><span class="n">theta1</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;迭代图像绘制...&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">count</span><span class="p">),</span><span class="n">loss</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</td></tr></table>
+
+<details class="note"><summary>小批量梯度下降运行结果查看</summary><p><img alt="yx3.png" src="https://i.loli.net/2019/08/15/ql47Jzp2VeOQRAC.png" /></p>
+</details>
+<p><center><img alt="ip2.png" src="https://i.loli.net/2019/08/12/UAucR7WTZv6mi2y.png" /></center></p>
+                
+                  
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid">
+        
+          <a href="../sjsl/" title="9. 随机森林" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
+            </div>
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  后退
+                </span>
+                9. 随机森林
+              </span>
+            </div>
+          </a>
+        
+        
+          <a href="../ANN/" title="2. 神经网络算法" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  前进
+                </span>
+                2. 神经网络算法
+              </span>
+            </div>
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        powered by
+        <a href="https://www.mkdocs.org">MkDocs</a>
+        and
+        <a href="https://squidfunk.github.io/mkdocs-material/">
+          Material for MkDocs</a>
+      </div>
+      
+        
+  <div class="md-footer-social">
+    <link rel="stylesheet" href="../../assets/fonts/font-awesome.css">
+    
+      <a href="https://github.com/WangRongsheng" class="md-footer-social__link fa fa-github"></a>
+    
+  </div>
+
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../../assets/javascripts/application.5e60981f.js"></script>
+      
+        
+        
+          
+          <script src="../../assets/javascripts/lunr/lunr.stemmer.support.js"></script>
+          
+            
+              
+              
+            
+          
+          
+        
+      
+      <script>app.initialize({version:"1.0.4",url:{base:"../.."}})</script>
+      
+    
+    
+      
+    
+  </body>
+</html>

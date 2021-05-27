@@ -1,0 +1,1168 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      <meta http-equiv="x-ua-compatible" content="ie=edge">
+      
+        <meta name="description" content="越努力越幸运">
+      
+      
+        <link rel="canonical" href="https://github.com/WangRongsheng/ai/jcs/">
+      
+      
+        <meta name="author" content="王荣胜">
+      
+      
+        <meta name="lang:clipboard.copy" content="复制">
+      
+        <meta name="lang:clipboard.copied" content="已复制">
+      
+        <meta name="lang:search.language" content="zh">
+      
+        <meta name="lang:search.pipeline.stopwords" content="True">
+      
+        <meta name="lang:search.pipeline.trimmer" content="True">
+      
+        <meta name="lang:search.result.none" content="没有找到符合条件的结果">
+      
+        <meta name="lang:search.result.one" content="找到 1 个符合条件的结果">
+      
+        <meta name="lang:search.result.other" content="# 个符合条件的结果">
+      
+        <meta name="lang:search.tokenizer" content="[\uff0c\u3002]+">
+      
+      <link rel="shortcut icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-3.0.6">
+    
+    
+      
+        <title>8. 决策树 - 教书的先生</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/application.451f80e5.css">
+      
+        <link rel="stylesheet" href="../../assets/stylesheets/application-palette.22915126.css">
+      
+      
+        
+        
+        <meta name="theme-color" content="#3f51b5">
+      
+    
+    
+      <script src="../../assets/javascripts/modernizr.1aa3b519.js"></script>
+    
+    
+      
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700|Roboto+Mono">
+        <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
+      
+    
+    <link rel="stylesheet" href="../../assets/fonts/material-icons.css">
+    
+      <link rel="stylesheet" href="../../_static/extra.css">
+    
+    
+  </head>
+  
+    
+    
+    <body dir="ltr" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    <svg class="md-svg">
+      <defs>
+        
+        
+          <svg xmlns="http://www.w3.org/2000/svg" width="416" height="448"
+    viewBox="0 0 416 448" id="__github">
+  <path fill="currentColor" d="M160 304q0 10-3.125 20.5t-10.75 19-18.125
+        8.5-18.125-8.5-10.75-19-3.125-20.5 3.125-20.5 10.75-19 18.125-8.5
+        18.125 8.5 10.75 19 3.125 20.5zM320 304q0 10-3.125 20.5t-10.75
+        19-18.125 8.5-18.125-8.5-10.75-19-3.125-20.5 3.125-20.5 10.75-19
+        18.125-8.5 18.125 8.5 10.75 19 3.125 20.5zM360
+        304q0-30-17.25-51t-46.75-21q-10.25 0-48.75 5.25-17.75 2.75-39.25
+        2.75t-39.25-2.75q-38-5.25-48.75-5.25-29.5 0-46.75 21t-17.25 51q0 22 8
+        38.375t20.25 25.75 30.5 15 35 7.375 37.25 1.75h42q20.5 0
+        37.25-1.75t35-7.375 30.5-15 20.25-25.75 8-38.375zM416 260q0 51.75-15.25
+        82.75-9.5 19.25-26.375 33.25t-35.25 21.5-42.5 11.875-42.875 5.5-41.75
+        1.125q-19.5 0-35.5-0.75t-36.875-3.125-38.125-7.5-34.25-12.875-30.25-20.25-21.5-28.75q-15.5-30.75-15.5-82.75
+        0-59.25 34-99-6.75-20.5-6.75-42.5 0-29 12.75-54.5 27 0 47.5 9.875t47.25
+        30.875q36.75-8.75 77.25-8.75 37 0 70 8 26.25-20.5
+        46.75-30.25t47.25-9.75q12.75 25.5 12.75 54.5 0 21.75-6.75 42 34 40 34
+        99.5z" />
+</svg>
+        
+      </defs>
+    </svg>
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
+    
+      <a href="#_1" tabindex="1" class="md-skip">
+        跳转至
+      </a>
+    
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid">
+    <div class="md-flex">
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <a href="https://github.com/WangRongsheng" title="教书的先生" class="md-header-nav__button md-logo">
+          
+            <i class="md-icon"></i>
+          
+        </a>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <label class="md-icon md-icon--menu md-header-nav__button" for="__drawer"></label>
+      </div>
+      <div class="md-flex__cell md-flex__cell--stretch">
+        <div class="md-flex__ellipsis md-header-nav__title" data-md-component="title">
+          
+            
+              <span class="md-header-nav__topic">
+                教书的先生
+              </span>
+              <span class="md-header-nav__topic">
+                8. 决策树
+              </span>
+            
+          
+        </div>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        
+          
+            <label class="md-icon md-icon--search md-header-nav__button" for="__search"></label>
+            
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query" data-md-state="active">
+      <label class="md-icon md-search__icon" for="__search"></label>
+      <button type="reset" class="md-icon md-search__icon" data-md-component="reset" tabindex="-1">
+        &#xE5CD;
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="result">
+          <div class="md-search-result__meta">
+            键入以开始搜索
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+          
+        
+      </div>
+      
+        <div class="md-flex__cell md-flex__cell--shrink">
+          <div class="md-header-nav__source">
+            
+
+
+  
+
+
+  <a href="https://github.com/WangRongsheng/" title="前往 Github 仓库" class="md-source" data-md-source="github">
+    
+      <div class="md-source__icon">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+          <use xlink:href="#__github" width="24" height="24"></use>
+        </svg>
+      </div>
+    
+    <div class="md-source__repository">
+      GitHub
+    </div>
+  </a>
+
+          </div>
+        </div>
+      
+    </div>
+  </nav>
+</header>
+    
+    <div class="md-container">
+      
+        
+      
+      
+        
+
+  
+
+<nav class="md-tabs md-tabs--active" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../.." title="介绍" class="md-tabs__link">
+          介绍
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../knn/" title="机器学习" class="md-tabs__link md-tabs__link--active">
+          机器学习
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../tdxj/" title="深度学习" class="md-tabs__link">
+          深度学习
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../question/pj/" title="知识点" class="md-tabs__link">
+          知识点
+        </a>
+      
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+      
+      <main class="md-main">
+        <div class="md-main__inner md-grid" data-md-component="container">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <nav class="md-nav md-nav--primary" data-md-level="0">
+  <label class="md-nav__title md-nav__title--site" for="__drawer">
+    <a href="https://github.com/WangRongsheng" title="教书的先生" class="md-nav__button md-logo">
+      
+        <i class="md-icon"></i>
+      
+    </a>
+    教书的先生
+  </label>
+  
+    <div class="md-nav__source">
+      
+
+
+  
+
+
+  <a href="https://github.com/WangRongsheng/" title="前往 Github 仓库" class="md-source" data-md-source="github">
+    
+      <div class="md-source__icon">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+          <use xlink:href="#__github" width="24" height="24"></use>
+        </svg>
+      </div>
+    
+    <div class="md-source__repository">
+      GitHub
+    </div>
+  </a>
+
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-1" type="checkbox" id="nav-1">
+    
+    <label class="md-nav__link" for="nav-1">
+      介绍
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-1">
+        介绍
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../.." title="介绍" class="md-nav__link">
+      介绍
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../about/" title="关于" class="md-nav__link">
+      关于
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tj/" title="信息" class="md-nav__link">
+      信息
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2" checked>
+    
+    <label class="md-nav__link" for="nav-2">
+      机器学习
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-2">
+        机器学习
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../knn/" title="1. K-最近邻算法" class="md-nav__link">
+      1. K-最近邻算法
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../k-means/" title="2. K-均值算法" class="md-nav__link">
+      2. K-均值算法
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../mf/" title="3. 基于矩阵分解的推荐系统" class="md-nav__link">
+      3. 基于矩阵分解的推荐系统
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../usercf/" title="4. 基于用户的协同过滤" class="md-nav__link">
+      4. 基于用户的协同过滤
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../itemcf/" title="5. 基于项目的协同过滤" class="md-nav__link">
+      5. 基于项目的协同过滤
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../psbys/" title="6. 朴素贝叶斯分类" class="md-nav__link">
+      6. 朴素贝叶斯分类
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../bpr/" title="7. 贝叶斯个性化排序" class="md-nav__link">
+      7. 贝叶斯个性化排序
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        8. 决策树
+      </label>
+    
+    <a href="./" title="8. 决策树" class="md-nav__link md-nav__link--active">
+      8. 决策树
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">目录</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_2" title="介绍" class="md-nav__link">
+    介绍
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" title="基本结构和概念" class="md-nav__link">
+    基本结构和概念
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_4" title="基本结构" class="md-nav__link">
+    基本结构
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" title="其他概念" class="md-nav__link">
+    其他概念
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" title="算法步骤" class="md-nav__link">
+    算法步骤
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" title="构造树过程处理" class="md-nav__link">
+    构造树过程处理
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_8" title="特征评估方法/划分准则" class="md-nav__link">
+    特征评估方法/划分准则
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_9" title="剪枝处理" class="md-nav__link">
+    剪枝处理
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_10" title="特殊值处理" class="md-nav__link">
+    特殊值处理
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_11" title="泛化误差估计" class="md-nav__link">
+    泛化误差估计
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../sjsl/" title="9. 随机森林" class="md-nav__link">
+      9. 随机森林
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3">
+    
+    <label class="md-nav__link" for="nav-3">
+      深度学习
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-3">
+        深度学习
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../tdxj/" title="1. 梯度下降算法" class="md-nav__link">
+      1. 梯度下降算法
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../ANN/" title="2. 神经网络算法" class="md-nav__link">
+      2. 神经网络算法
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../jj/" title="3. 卷积神经网络" class="md-nav__link">
+      3. 卷积神经网络
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../rnn/" title="4. 循环神经网络" class="md-nav__link">
+      4. 循环神经网络
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../lstm/" title="5. 长短时记忆网络" class="md-nav__link">
+      5. 长短时记忆网络
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../dg/" title="6. 递归神经网络" class="md-nav__link">
+      6. 递归神经网络
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4">
+    
+    <label class="md-nav__link" for="nav-4">
+      知识点
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-4">
+        知识点
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../question/pj/" title="1. 评价指标" class="md-nav__link">
+      1. 评价指标
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../question/txtz/" title="2. 梯度消失与爆炸" class="md-nav__link">
+      2. 梯度消失与爆炸
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../question/cwpd/" title="3. Loss分析" class="md-nav__link">
+      3. Loss分析
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../question/sjc/" title="4. 时间戳" class="md-nav__link">
+      4. 时间戳
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../question/losshs/" title="5. 损失函数" class="md-nav__link">
+      5. 损失函数
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../question/ad/" title="6. 鞍点" class="md-nav__link">
+      6. 鞍点
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../question/bn/" title="7. BN层" class="md-nav__link">
+      7. BN层
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../question/h5/" title="8. H5文件" class="md-nav__link">
+      8. H5文件
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../question/meta-path/" title="9. Meta Path" class="md-nav__link">
+      9. Meta Path
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">目录</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_2" title="介绍" class="md-nav__link">
+    介绍
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" title="基本结构和概念" class="md-nav__link">
+    基本结构和概念
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_4" title="基本结构" class="md-nav__link">
+    基本结构
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" title="其他概念" class="md-nav__link">
+    其他概念
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" title="算法步骤" class="md-nav__link">
+    算法步骤
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" title="构造树过程处理" class="md-nav__link">
+    构造树过程处理
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_8" title="特征评估方法/划分准则" class="md-nav__link">
+    特征评估方法/划分准则
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_9" title="剪枝处理" class="md-nav__link">
+    剪枝处理
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_10" title="特殊值处理" class="md-nav__link">
+    特殊值处理
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_11" title="泛化误差估计" class="md-nav__link">
+    泛化误差估计
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                  <a href="https://github.com/WangRongsheng/edit/master/docs/ai/jcs.md" title="编辑此页" class="md-icon md-content__icon">&#xE3C9;</a>
+                
+                
+                <h1 id="_1">决策树概述<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
+<h2 id="_2">介绍<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<p>决策树(判定树)是一种常见的机器学习算法，它的思想十分朴素，类似于我们平时利用选择做决策的过程，也类似于问答猜测结果游戏，根据一系列数据，然后给出游戏的答案。
+<center><img alt="jcs1.png" src="https://i.loli.net/2019/08/20/FMRSgPlmOQfYWoI.png" /></center></p>
+<p>决策树学习的目标：根据给定的训练数据集构建一个决策树模型，使它能够对实例进行正确的分类。</p>
+<p>决策树学习的本质：从训练集中归纳出一组分类规则，或者说是由训练数据集估计条件概率模型。</p>
+<p>决策树学习的损失函数：正则化的极大似然函数。</p>
+<p>决策树学习的测试：最小化损失函数。</p>
+<p>决策树学习的目标：在损失函数的意义下，选择最优决策树的问题。</p>
+<p>决策树策略：自上向下，分而治之。</p>
+<p>决策树种类：(1)分类树--对离散变量做决策树; (2)回归树--对连续变量做决策树</p>
+<h2 id="_3">基本结构和概念<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<h3 id="_4">基本结构<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
+<p>一般由根节点、父节点、子节点和叶子节点构成。</p>
+<p>1)子节点由父节点根据某一规则分裂而来，然后子节点作为新的父亲节点继续分裂，直至不能分裂为止;</p>
+<p>2)根节点是没有父节点的节点，即初始分裂节点;</p>
+<p>3)叶子节点是没有子节点的节点。</p>
+<h3 id="_5">其他概念<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
+<p>（1）根结点(Root Node)：它表示整个样本集合，并且该节点可以进一步划分成两个或多个子集。</p>
+<p>（2）拆分(Splitting)：表示将一个结点拆分成多个子集的过程。</p>
+<p>（3）决策结点(Decision Node)：当一个子结点进一步被拆分成多个子节点时，这个子节点就叫做决策结点。</p>
+<p>（4）叶子结点(Leaf/Terminal Node)：无法再拆分的结点被称为叶子结点。</p>
+<p>（5）剪枝(Pruning)：移除决策树中子结点的过程就叫做剪枝，跟拆分过程相反。</p>
+<p>（6）分支/子树(Branch/Sub-Tree)：一棵决策树的一部分就叫做分支或子树。</p>
+<p>（7）父结点和子结点(Paren and Child Node)：一个结点被拆分成多个子节点，这个结点就叫做父节点；其拆分后的子结点也叫做子结点。 </p>
+<h2 id="_6">算法步骤<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
+<p>步骤1：将所有的数据看成是一个节点（根节点），进入步骤2；</p>
+<p>步骤2：根据划分准则，从所有属性中挑选一个对节点进行分割，进入步骤3；</p>
+<p>步骤3：生成若干个子节点，对每一个子节点进行判断，如果满足停止分裂的条件，进入步骤4；否则，进入步骤2；</p>
+<p>步骤4：设置该节点是叶子节点，其输出的结果为该节点数量占比最大的类别。</p>
+<p>注：在决策树基本算法中，有三种情形会导致递归返回:</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>   1) 当前结点包含的样本全属于同一类别，无需划分;
+
+   2) 当前属性集为空，或是所有样本在所有属性上取值相同，无法划分;
+
+   3) 当前结点包含的样本集合为空，不能划分。
+</pre></div>
+</td></tr></table>
+
+<h2 id="_7">构造树过程处理<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h2>
+<p>决策树的构造过程一般分为3个部分，分别是特征选择、决策树生产和决策树裁剪。</p>
+<p>（1）特征选择：</p>
+<p>特征选择表示从众多的特征中选择一个特征作为当前节点分裂的标准，如何选择特征有不同的量化<strong>评估方法</strong>，从而衍生出不同的决策树。</p>
+<p>目的（准则）：使用某特征对数据集划分之后，各数据子集的纯度要比划分钱的数据集D的纯度高（也就是不确定性要比划分前数据集D的不确定性低）</p>
+<p>（2）决策树的生成</p>
+<p>根据选择的特征评估标准，从上至下递归地生成子节点，直到数据集不可分则停止决策树停止生长。这个过程实际上就是使用满足划分准则的特征不断的将数据集划分成纯度更高，不确定行更小的子集的过程。对于当前数据集的每一次划分，都希望根据某个特征划分之后的各个子集的纯度更高，不确定性更小。</p>
+<p>（3）决策树的裁剪
+<strong>决策树容易过拟合</strong>，一般需要<strong>剪枝</strong>来缩小树结构规模、缓解过拟合。  </p>
+<h3 id="_8">特征评估方法/划分准则<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h3>
+<p>一般而言，随着划分过程不断进行，我们希望决策树的分支结点所包含的样本尽可能属于同一类别，即结点的"纯度"越来越高。其中最常用的三种准则:</p>
+<ul>
+<li>
+<p>信息增益准则(ID3)</p>
+</li>
+<li>
+<p>信息增益率准则(C4.5)</p>
+</li>
+<li>
+<p>基尼指数准则(CART)   </p>
+</li>
+</ul>
+<h3 id="_9">剪枝处理<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h3>
+<p>剪枝是决策树学习算法对付<strong>过拟合</strong>的主要手段。</p>
+<p>过拟合原因：</p>
+<p>1）噪声导致的过拟合：拟合了被误标记的样例，导致误分类。</p>
+<p>2）缺乏代表性样本导致的过拟合：缺乏代表性样本的少量训练集作出的决策会出现过拟合。</p>
+<p>3）多重比较造成的过拟合：复杂模型。</p>
+<p>基本策略有"预剪枝" 和"后剪枝"；</p>
+<p>预剪枝是指在决策树生成过程中，对每个结点在划分前先进行估计，若当前结点的划分不能带来决策树泛化性能提升，则停止划分并将当前结点标记为叶结点；</p>
+<p>后剪枝则是先从训练集生成一棵完整的决策树，然后自底向上地对非叶结点进行考察，若将该结点对应的子树替换为叶结点能带来决策树泛化性能提升，则将该子树替换为叶结点。</p>
+<p>判断决策树泛化性能是否提升： 留出法 ，即预留一部分数据用作"验证集"以进行性能评估。</p>
+<p>例如：在预剪枝中，对于每一个分裂节点，对比分裂前后决策树在验证集上的预测精度，从而决定是否分裂该节点。而在后剪枝中，考察非叶节点，对比剪枝前后决策树在验证集上的预测精度，从而决定是否对其剪枝。</p>
+<p>两种方法对比：</p>
+<p>1）预剪枝使得决策树的很多分支都没有"展开”，不仅降低过拟合风险，而且显著减少训练/测试时间开销；但，有些分支的当前划分虽不能提升泛化性能，但在其基础上进行的后续划分却有可能导致性能显著提高，即预剪枝基于"贪心"本质禁止这些分支展开，给预剪枝决策树带来了欠拟含的风险。</p>
+<p>2）后剪枝决策树通常比预剪枝决策树保留了更多的分支。一般情形下，后剪枝决策树的欠拟合风险很小，泛化性能往往优于预剪枝决策树，但后剪枝过程是在生成完全决策树之后进行的，并且要自底向上地对树中的所有非叶结点进行逐一考察，因此其训练时间开销比未剪枝决策树和预剪枝决策树都要大得多。</p>
+<h3 id="_10">特殊值处理<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h3>
+<p>以上都是基于<strong>离散属性</strong>进行讨论，而<strong>连续属性</strong>的可取值数目不再有限， 因此，不能直接根据连续属性的可取值来对结点进行划分。此时需要进行连续属性离散化，最简单的策略是采用二分法对连续属性进行处理（C4.5） 
+<center><img alt="jcs2.png" src="https://i.loli.net/2019/08/20/ueSGpwaRbrUhZEm.png" /></center>
+<center><img alt="jcs3.png" src="https://i.loli.net/2019/08/20/Hm8bpJaGdiFY5TL.png" /></center></p>
+<h3 id="_11">泛化误差估计<a class="headerlink" href="#_11" title="Permanent link">&para;</a></h3>
+<ul>
+<li>再代入估计</li>
+</ul>
+<p>再代入估计方法假设训练数据集可以很好地代表整体数据，因此，可以使用训练误差（再代入误差）提供对泛化误差的乐观估计。此情形下，决策树算法将简单地选择产生最低训练误差的模型作为最终的模型，尽管，使用训练误差通常是泛化误差的一种很差的估计。</p>
+<ul>
+<li>结合模型复杂度</li>
+</ul>
+<p>根据奥卡姆剃刀原则：“给定两个具有相同泛化误差的模型，较简单的模型比较复杂的模型更可取”，复杂模型中的附加成分很大程度上是基于对偶然的拟合。</p>
+<p>以下是把模型复杂度与模型评估结合在一起的方法： 悲观误差评估</p>
+<p>使用训练误差与模型复杂度罚项的和来计算泛化误差，如：</p>
+<p>设n(t)是结点t分类的训练记录数，e(t)是被误分类的记录数，则决策树T的悲观误差可表示为： 
+<center><img alt="jcs4.png" src="https://i.loli.net/2019/08/20/mBtSZM4Pzv7nLAh.png" /></center>
+其中，k是决策树的叶结点数，e(T)是决策树的总训练误差，Ω(t)是每个叶结点对应的罚项。</p>
+<ul>
+<li>使用验证集</li>
+</ul>
+<p>此方法中，不使用训练集来估计泛化误差，而是把原始数据集分为训练集和验证集，验证集用于估计泛化误差。通常是通过对算法进行调参，直到算法产生的模型在验证集上达到最低的错误率。</p>
+<p><center><img alt="ip2.png" src="https://i.loli.net/2019/08/12/UAucR7WTZv6mi2y.png" /></center></p>
+                
+                  
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid">
+        
+          <a href="../bpr/" title="7. 贝叶斯个性化排序" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
+            </div>
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  后退
+                </span>
+                7. 贝叶斯个性化排序
+              </span>
+            </div>
+          </a>
+        
+        
+          <a href="../sjsl/" title="9. 随机森林" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  前进
+                </span>
+                9. 随机森林
+              </span>
+            </div>
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        powered by
+        <a href="https://www.mkdocs.org">MkDocs</a>
+        and
+        <a href="https://squidfunk.github.io/mkdocs-material/">
+          Material for MkDocs</a>
+      </div>
+      
+        
+  <div class="md-footer-social">
+    <link rel="stylesheet" href="../../assets/fonts/font-awesome.css">
+    
+      <a href="https://github.com/WangRongsheng" class="md-footer-social__link fa fa-github"></a>
+    
+  </div>
+
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../../assets/javascripts/application.5e60981f.js"></script>
+      
+        
+        
+          
+          <script src="../../assets/javascripts/lunr/lunr.stemmer.support.js"></script>
+          
+            
+              
+              
+            
+          
+          
+        
+      
+      <script>app.initialize({version:"1.0.4",url:{base:"../.."}})</script>
+      
+    
+    
+      
+    
+  </body>
+</html>

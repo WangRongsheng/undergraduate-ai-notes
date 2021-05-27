@@ -1,0 +1,1737 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      <meta http-equiv="x-ua-compatible" content="ie=edge">
+      
+        <meta name="description" content="越努力越幸运">
+      
+      
+        <link rel="canonical" href="https://github.com/WangRongsheng/ai/jj/">
+      
+      
+        <meta name="author" content="王荣胜">
+      
+      
+        <meta name="lang:clipboard.copy" content="复制">
+      
+        <meta name="lang:clipboard.copied" content="已复制">
+      
+        <meta name="lang:search.language" content="zh">
+      
+        <meta name="lang:search.pipeline.stopwords" content="True">
+      
+        <meta name="lang:search.pipeline.trimmer" content="True">
+      
+        <meta name="lang:search.result.none" content="没有找到符合条件的结果">
+      
+        <meta name="lang:search.result.one" content="找到 1 个符合条件的结果">
+      
+        <meta name="lang:search.result.other" content="# 个符合条件的结果">
+      
+        <meta name="lang:search.tokenizer" content="[\uff0c\u3002]+">
+      
+      <link rel="shortcut icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-3.0.6">
+    
+    
+      
+        <title>3. 卷积神经网络 - 教书的先生</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/application.451f80e5.css">
+      
+        <link rel="stylesheet" href="../../assets/stylesheets/application-palette.22915126.css">
+      
+      
+        
+        
+        <meta name="theme-color" content="#3f51b5">
+      
+    
+    
+      <script src="../../assets/javascripts/modernizr.1aa3b519.js"></script>
+    
+    
+      
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700|Roboto+Mono">
+        <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
+      
+    
+    <link rel="stylesheet" href="../../assets/fonts/material-icons.css">
+    
+      <link rel="stylesheet" href="../../_static/extra.css">
+    
+    
+  </head>
+  
+    
+    
+    <body dir="ltr" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    <svg class="md-svg">
+      <defs>
+        
+        
+          <svg xmlns="http://www.w3.org/2000/svg" width="416" height="448"
+    viewBox="0 0 416 448" id="__github">
+  <path fill="currentColor" d="M160 304q0 10-3.125 20.5t-10.75 19-18.125
+        8.5-18.125-8.5-10.75-19-3.125-20.5 3.125-20.5 10.75-19 18.125-8.5
+        18.125 8.5 10.75 19 3.125 20.5zM320 304q0 10-3.125 20.5t-10.75
+        19-18.125 8.5-18.125-8.5-10.75-19-3.125-20.5 3.125-20.5 10.75-19
+        18.125-8.5 18.125 8.5 10.75 19 3.125 20.5zM360
+        304q0-30-17.25-51t-46.75-21q-10.25 0-48.75 5.25-17.75 2.75-39.25
+        2.75t-39.25-2.75q-38-5.25-48.75-5.25-29.5 0-46.75 21t-17.25 51q0 22 8
+        38.375t20.25 25.75 30.5 15 35 7.375 37.25 1.75h42q20.5 0
+        37.25-1.75t35-7.375 30.5-15 20.25-25.75 8-38.375zM416 260q0 51.75-15.25
+        82.75-9.5 19.25-26.375 33.25t-35.25 21.5-42.5 11.875-42.875 5.5-41.75
+        1.125q-19.5 0-35.5-0.75t-36.875-3.125-38.125-7.5-34.25-12.875-30.25-20.25-21.5-28.75q-15.5-30.75-15.5-82.75
+        0-59.25 34-99-6.75-20.5-6.75-42.5 0-29 12.75-54.5 27 0 47.5 9.875t47.25
+        30.875q36.75-8.75 77.25-8.75 37 0 70 8 26.25-20.5
+        46.75-30.25t47.25-9.75q12.75 25.5 12.75 54.5 0 21.75-6.75 42 34 40 34
+        99.5z" />
+</svg>
+        
+      </defs>
+    </svg>
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
+    
+      <a href="#_1" tabindex="1" class="md-skip">
+        跳转至
+      </a>
+    
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid">
+    <div class="md-flex">
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <a href="https://github.com/WangRongsheng" title="教书的先生" class="md-header-nav__button md-logo">
+          
+            <i class="md-icon"></i>
+          
+        </a>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <label class="md-icon md-icon--menu md-header-nav__button" for="__drawer"></label>
+      </div>
+      <div class="md-flex__cell md-flex__cell--stretch">
+        <div class="md-flex__ellipsis md-header-nav__title" data-md-component="title">
+          
+            
+              <span class="md-header-nav__topic">
+                教书的先生
+              </span>
+              <span class="md-header-nav__topic">
+                3. 卷积神经网络
+              </span>
+            
+          
+        </div>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        
+          
+            <label class="md-icon md-icon--search md-header-nav__button" for="__search"></label>
+            
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query" data-md-state="active">
+      <label class="md-icon md-search__icon" for="__search"></label>
+      <button type="reset" class="md-icon md-search__icon" data-md-component="reset" tabindex="-1">
+        &#xE5CD;
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="result">
+          <div class="md-search-result__meta">
+            键入以开始搜索
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+          
+        
+      </div>
+      
+        <div class="md-flex__cell md-flex__cell--shrink">
+          <div class="md-header-nav__source">
+            
+
+
+  
+
+
+  <a href="https://github.com/WangRongsheng/" title="前往 Github 仓库" class="md-source" data-md-source="github">
+    
+      <div class="md-source__icon">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+          <use xlink:href="#__github" width="24" height="24"></use>
+        </svg>
+      </div>
+    
+    <div class="md-source__repository">
+      GitHub
+    </div>
+  </a>
+
+          </div>
+        </div>
+      
+    </div>
+  </nav>
+</header>
+    
+    <div class="md-container">
+      
+        
+      
+      
+        
+
+  
+
+<nav class="md-tabs md-tabs--active" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../.." title="介绍" class="md-tabs__link">
+          介绍
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../knn/" title="机器学习" class="md-tabs__link">
+          机器学习
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../tdxj/" title="深度学习" class="md-tabs__link md-tabs__link--active">
+          深度学习
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../question/pj/" title="知识点" class="md-tabs__link">
+          知识点
+        </a>
+      
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+      
+      <main class="md-main">
+        <div class="md-main__inner md-grid" data-md-component="container">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <nav class="md-nav md-nav--primary" data-md-level="0">
+  <label class="md-nav__title md-nav__title--site" for="__drawer">
+    <a href="https://github.com/WangRongsheng" title="教书的先生" class="md-nav__button md-logo">
+      
+        <i class="md-icon"></i>
+      
+    </a>
+    教书的先生
+  </label>
+  
+    <div class="md-nav__source">
+      
+
+
+  
+
+
+  <a href="https://github.com/WangRongsheng/" title="前往 Github 仓库" class="md-source" data-md-source="github">
+    
+      <div class="md-source__icon">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+          <use xlink:href="#__github" width="24" height="24"></use>
+        </svg>
+      </div>
+    
+    <div class="md-source__repository">
+      GitHub
+    </div>
+  </a>
+
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-1" type="checkbox" id="nav-1">
+    
+    <label class="md-nav__link" for="nav-1">
+      介绍
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-1">
+        介绍
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../.." title="介绍" class="md-nav__link">
+      介绍
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../about/" title="关于" class="md-nav__link">
+      关于
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tj/" title="信息" class="md-nav__link">
+      信息
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2">
+    
+    <label class="md-nav__link" for="nav-2">
+      机器学习
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-2">
+        机器学习
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../knn/" title="1. K-最近邻算法" class="md-nav__link">
+      1. K-最近邻算法
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../k-means/" title="2. K-均值算法" class="md-nav__link">
+      2. K-均值算法
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../mf/" title="3. 基于矩阵分解的推荐系统" class="md-nav__link">
+      3. 基于矩阵分解的推荐系统
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../usercf/" title="4. 基于用户的协同过滤" class="md-nav__link">
+      4. 基于用户的协同过滤
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../itemcf/" title="5. 基于项目的协同过滤" class="md-nav__link">
+      5. 基于项目的协同过滤
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../psbys/" title="6. 朴素贝叶斯分类" class="md-nav__link">
+      6. 朴素贝叶斯分类
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../bpr/" title="7. 贝叶斯个性化排序" class="md-nav__link">
+      7. 贝叶斯个性化排序
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../jcs/" title="8. 决策树" class="md-nav__link">
+      8. 决策树
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../sjsl/" title="9. 随机森林" class="md-nav__link">
+      9. 随机森林
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3" checked>
+    
+    <label class="md-nav__link" for="nav-3">
+      深度学习
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-3">
+        深度学习
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../tdxj/" title="1. 梯度下降算法" class="md-nav__link">
+      1. 梯度下降算法
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../ANN/" title="2. 神经网络算法" class="md-nav__link">
+      2. 神经网络算法
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        3. 卷积神经网络
+      </label>
+    
+    <a href="./" title="3. 卷积神经网络" class="md-nav__link md-nav__link--active">
+      3. 卷积神经网络
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">目录</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_2" title="介绍" class="md-nav__link">
+    介绍
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#vs" title="全连接神经网络 VS 卷积网络" class="md-nav__link">
+    全连接神经网络 VS 卷积网络
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_3" title="认识" class="md-nav__link">
+    认识
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" title="结构" class="md-nav__link">
+    结构
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" title="计算" class="md-nav__link">
+    计算
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#convolution" title="卷积(Convolution)层输出值计算" class="md-nav__link">
+    卷积(Convolution)层输出值计算
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pooling" title="池化(Pooling)层输出值计算" class="md-nav__link">
+    池化(Pooling)层输出值计算
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#connected" title="全连接(Connected)层输出值计算" class="md-nav__link">
+    全连接(Connected)层输出值计算
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" title="训练" class="md-nav__link">
+    训练
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_7" title="卷积层训练" class="md-nav__link">
+    卷积层训练
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_8" title="卷积层误差项的传递" class="md-nav__link">
+    卷积层误差项的传递
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_9" title="最简单情况下误差项的传递" class="md-nav__link">
+    最简单情况下误差项的传递
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#s" title="卷积步长为S时的误差传递" class="md-nav__link">
+    卷积步长为S时的误差传递
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#d" title="输入层深度为D时的误差传递" class="md-nav__link">
+    输入层深度为D时的误差传递
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#filtern" title="filter数量为N时的误差传递" class="md-nav__link">
+    filter数量为N时的误差传递
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#filter" title="卷积层filter权重梯度的计算" class="md-nav__link">
+    卷积层filter权重梯度的计算
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_10" title="池化层训练" class="md-nav__link">
+    池化层训练
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#max-pooling" title="Max Pooling误差项的传递" class="md-nav__link">
+    Max Pooling误差项的传递
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mean-pooling" title="Mean Pooling误差项的传递" class="md-nav__link">
+    Mean Pooling误差项的传递
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_11" title="经典的卷积神经网络" class="md-nav__link">
+    经典的卷积神经网络
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_12" title="代码实现" class="md-nav__link">
+    代码实现
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tensorflowcnn" title="基于Tensorflow的CNN实现手写体识别" class="md-nav__link">
+    基于Tensorflow的CNN实现手写体识别
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_13" title="其他实现" class="md-nav__link">
+    其他实现
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../rnn/" title="4. 循环神经网络" class="md-nav__link">
+      4. 循环神经网络
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../lstm/" title="5. 长短时记忆网络" class="md-nav__link">
+      5. 长短时记忆网络
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../dg/" title="6. 递归神经网络" class="md-nav__link">
+      6. 递归神经网络
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4">
+    
+    <label class="md-nav__link" for="nav-4">
+      知识点
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-4">
+        知识点
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../question/pj/" title="1. 评价指标" class="md-nav__link">
+      1. 评价指标
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../question/txtz/" title="2. 梯度消失与爆炸" class="md-nav__link">
+      2. 梯度消失与爆炸
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../question/cwpd/" title="3. Loss分析" class="md-nav__link">
+      3. Loss分析
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../question/sjc/" title="4. 时间戳" class="md-nav__link">
+      4. 时间戳
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../question/losshs/" title="5. 损失函数" class="md-nav__link">
+      5. 损失函数
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../question/ad/" title="6. 鞍点" class="md-nav__link">
+      6. 鞍点
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../question/bn/" title="7. BN层" class="md-nav__link">
+      7. BN层
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../question/h5/" title="8. H5文件" class="md-nav__link">
+      8. H5文件
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../question/meta-path/" title="9. Meta Path" class="md-nav__link">
+      9. Meta Path
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">目录</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_2" title="介绍" class="md-nav__link">
+    介绍
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#vs" title="全连接神经网络 VS 卷积网络" class="md-nav__link">
+    全连接神经网络 VS 卷积网络
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_3" title="认识" class="md-nav__link">
+    认识
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" title="结构" class="md-nav__link">
+    结构
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" title="计算" class="md-nav__link">
+    计算
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#convolution" title="卷积(Convolution)层输出值计算" class="md-nav__link">
+    卷积(Convolution)层输出值计算
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pooling" title="池化(Pooling)层输出值计算" class="md-nav__link">
+    池化(Pooling)层输出值计算
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#connected" title="全连接(Connected)层输出值计算" class="md-nav__link">
+    全连接(Connected)层输出值计算
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" title="训练" class="md-nav__link">
+    训练
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_7" title="卷积层训练" class="md-nav__link">
+    卷积层训练
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_8" title="卷积层误差项的传递" class="md-nav__link">
+    卷积层误差项的传递
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_9" title="最简单情况下误差项的传递" class="md-nav__link">
+    最简单情况下误差项的传递
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#s" title="卷积步长为S时的误差传递" class="md-nav__link">
+    卷积步长为S时的误差传递
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#d" title="输入层深度为D时的误差传递" class="md-nav__link">
+    输入层深度为D时的误差传递
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#filtern" title="filter数量为N时的误差传递" class="md-nav__link">
+    filter数量为N时的误差传递
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#filter" title="卷积层filter权重梯度的计算" class="md-nav__link">
+    卷积层filter权重梯度的计算
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_10" title="池化层训练" class="md-nav__link">
+    池化层训练
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#max-pooling" title="Max Pooling误差项的传递" class="md-nav__link">
+    Max Pooling误差项的传递
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mean-pooling" title="Mean Pooling误差项的传递" class="md-nav__link">
+    Mean Pooling误差项的传递
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_11" title="经典的卷积神经网络" class="md-nav__link">
+    经典的卷积神经网络
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_12" title="代码实现" class="md-nav__link">
+    代码实现
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tensorflowcnn" title="基于Tensorflow的CNN实现手写体识别" class="md-nav__link">
+    基于Tensorflow的CNN实现手写体识别
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_13" title="其他实现" class="md-nav__link">
+    其他实现
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                  <a href="https://github.com/WangRongsheng/edit/master/docs/ai/jj.md" title="编辑此页" class="md-icon md-content__icon">&#xE3C9;</a>
+                
+                
+                <h1 id="_1">卷积神经网络概述<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
+<p>在前面的文章中，我们介绍了全连接<u>神经网络</u>，然而这种结构的网络对于图像识别任务来说并不是很合适。本文将要介绍一种更适合图像、语音识别任务的神经网络结构——卷积神经网络(Convolutional Neural Network, CNN)。说卷积神经网络是最重要的一种神经网络也不为过，它在最近几年大放异彩，几乎所有图像、语音识别领域的重要突破都是卷积神经网络取得的，比如谷歌的GoogleNet、微软的ResNet等，打败李世石的AlphaGo也用到了这种网络。本文将详细介绍卷积神经网络。</p>
+<h2 id="_2">介绍<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<h3 id="vs">全连接神经网络 VS 卷积网络<a class="headerlink" href="#vs" title="Permanent link">&para;</a></h3>
+<p>全连接神经网络之所以不太适合图像识别任务，主要有以下几个方面的问题：</p>
+<ol>
+<li>
+<p>参数数量太多 考虑一个输入1000*1000像素的图片(一百万像素，现在已经不能算大图了)，输入层有1000*1000=100万节点。假设第一个隐藏层有100个节点(这个数量并不多)，那么仅这一层就有(1000*1000+1)*100=1亿参数，这实在是太多了！我们看到图像只扩大一点，参数数量就会多很多，因此它的扩展性很差。</p>
+</li>
+<li>
+<p>没有利用像素之间的位置信息 对于图像识别任务来说，每个像素和其周围像素的联系是比较紧密的，和离得很远的像素的联系可能就很小了。如果一个神经元和上一层所有神经元相连，那么就相当于对于一个像素来说，把图像的所有像素都等同看待，这不符合前面的假设。当我们完成每个连接权重的学习之后，最终可能会发现，有大量的权重，它们的值都是很小的(也就是这些连接其实无关紧要)。努力学习大量并不重要的权重，这样的学习必将是非常低效的。</p>
+</li>
+<li>
+<p>网络层数限制 我们知道网络层数越多其表达能力越强，但是通过梯度下降方法训练深度全连接神经网络很困难，因为全连接神经网络的梯度很难传递超过3层。因此，我们不可能得到一个很深的全连接神经网络，也就限制了它的能力。</p>
+</li>
+</ol>
+<p>那么，卷积神经网络又是怎样解决这个问题的呢？主要有三个思路：</p>
+<ol>
+<li>
+<p>局部连接 这个是最容易想到的，每个神经元不再和上一层的所有神经元相连，而只和一小部分神经元相连。这样就减少了很多参数。</p>
+</li>
+<li>
+<p>权值共享 一组连接可以共享同一个权重，而不是每个连接有一个不同的权重，这样又减少了很多参数。</p>
+</li>
+<li>
+<p>下采样 可以使用Pooling来减少每层的样本数，进一步减少参数数量，同时还可以提升模型的鲁棒性。</p>
+</li>
+</ol>
+<p>对于图像识别任务来说，卷积神经网络通过尽可能保留重要的参数，去掉大量不重要的参数，来达到更好的学习效果。</p>
+<p>接下来，我们将详述卷积神经网络到底是何方神圣。</p>
+<h3 id="_3">认识<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
+<p>首先，我们先获取一个感性认识，下图是一个卷积神经网络的示意图：
+<center><img alt="t.png" src="https://i.loli.net/2019/08/14/alqmoVnvzSwUOiP.png" /></center>
+<center>网络架构</center></p>
+<p>如图所示，一个卷积神经网络由若干<strong>卷积层</strong>、<strong>Pooling层</strong>、<strong>全连接层</strong>组成。你可以构建各种不同的卷积神经网络，它的常用架构模式为：</p>
+<p>INPUT -&gt; [[CONV]<em>N -&gt; POOL?]</em>M -&gt; [FC]*K</p>
+<p>也就是N个卷积层叠加，然后(可选)叠加一个Pooling层，重复这个结构M次，最后叠加K个全连接层。</p>
+<p>对于上图展示的卷积神经网络：</p>
+<p>INPUT -&gt; CONV -&gt; POOL -&gt; CONV -&gt; POOL -&gt; FC -&gt; FC</p>
+<p>按照上述模式可以表示为：</p>
+<p>INPUT -&gt; [[CONV]<em>1 -&gt; POOL]</em>2 -&gt; [FC]*2</p>
+<p>也就是：N=1, M=2, K=2。</p>
+<h3 id="_4">结构<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
+<p>从上图我们可以发现<strong>卷积神经网络</strong>的层结构和<strong>全连接神经网络</strong>的层结构有很大不同。<strong>全连接神经网络</strong>每层的神经元是按照<strong>一维</strong>排列的，也就是排成一条线的样子；而<strong>卷积神经网络</strong>每层的神经元是按照<strong>三维</strong>排列的，也就是排成一个长方体的样子，有<strong>宽度</strong>、<strong>高度</strong>和<strong>深度</strong>。</p>
+<p>对于上图展示的神经网络，我们看到输入层的宽度和高度对应于输入图像的宽度和高度，而它的深度为1。接着，第一个卷积层对这幅图像进行了卷积操作(后面我们会讲如何计算卷积)，得到了三个Feature Map。这里的"3"可能是让很多初学者迷惑的地方，实际上，就是这个卷积层包含三个Filter，也就是三套参数，每个Filter都可以把原始输入图像卷积得到一个Feature Map，三个Filter就可以得到三个Feature Map。至于一个卷积层可以有多少个Filter，那是可以自由设定的。也就是说，卷积层的Filter个数也是一个<strong>超参数</strong>。我们可以把Feature Map可以看做是通过卷积变换提取到的图像特征，三个Filter就对原始图像提取出三组不同的特征，也就是得到了三个Feature Map，也称做三个<strong>通道(channel)</strong>。</p>
+<p>继续观察上图，在第一个卷积层之后，Pooling层对三个Feature Map做了<strong>下采样</strong>(后面我们会讲如何计算下采样)，得到了三个更小的Feature Map。接着，是第二个<strong>卷积层</strong>，它有5个Filter。每个Fitler都把前面下采样之后的3个<strong>Feature Map卷积在一起，得到一个新的Feature Map。这样，5个Filter就得到了5个Feature Map。接着，是第二个Pooling，继续对5个Feature Map进行下采样</strong>，得到了5个更小的Feature Map。</p>
+<p>上图所示网络的最后两层是全连接层。第一个全连接层的每个神经元，和上一层5个Feature Map中的每个神经元相连，第二个全连接层(也就是输出层)的每个神经元，则和第一个全连接层的每个神经元相连，这样得到了整个网络的输出。</p>
+<p>至此，我们对卷积神经网络有了最基本的感性认识。接下来，我们将介绍卷积神经网络中各种层的计算。</p>
+<h2 id="_5">计算<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
+<h3 id="convolution">卷积(Convolution)层输出值计算<a class="headerlink" href="#convolution" title="Permanent link">&para;</a></h3>
+<p>我们用一个简单的例子来讲述如何计算卷积，然后，我们抽象出卷积层的一些重要概念和计算方法。</p>
+<p>假设有一个5<em>5的图像，使用一个3</em>3的filter进行卷积，想得到一个3*3的Feature Map，如下所示：
+<center><img alt="pc1.png" src="https://i.loli.net/2019/08/14/4ZS2gNATyYuW3Ie.png" /></center></p>
+<p>为了清楚的描述卷积计算过程，我们首先对图像的每个像素进行编号，用Xi,j表示图像的第i行第j列元素；对filter的每个权重进行编号，用Wm,n表示第m行第n列权重，用Wb表示filter的偏置项；对Feature Map的每个元素进行编号，用ai,j表示Feature Map的第i行第j列元素；用f表示激活函数(这个例子选择relu函数作为激活函数)。然后，使用下列公式计算卷积：
+<center><img alt="pc2.png" src="https://i.loli.net/2019/08/14/uoZg3hJbqMns9DB.png" /></center></p>
+<p>计算结果如下图所示：
+<center><img alt="pc3.png" src="https://i.loli.net/2019/08/14/ZVKrEnS5TPwUh1t.png" /></center></p>
+<p>可以依次计算出Feature Map中所有元素的值。下面的动画显示了整个Feature Map的计算过程：
+<center><img alt="pcc.gif" src="https://i.loli.net/2019/08/14/Hzh71EQ6LyNcbFR.gif" /></center></p>
+<p>上面的计算过程中，步幅(stride)为1。步幅可以设为大于1的数。例如，当步幅为2时，Feature Map计算如下：
+<center><img alt="pc4.png" src="https://i.loli.net/2019/08/14/8hFQLBI57CTjDXq.png" /></center>
+<center><img alt="pc5.png" src="https://i.loli.net/2019/08/14/WZkFxwBr9EHtQoR.png" /></center>
+<center><img alt="pc6.png" src="https://i.loli.net/2019/08/14/mrC8oyu53hkKQeR.png" /></center>
+<center><img alt="pc7.png" src="https://i.loli.net/2019/08/14/4Bp9sgOceorq7Um.png" /></center>
+我们注意到，当步幅设置为2的时候，Feature Map就变成2*2了。这说明图像大小、步幅和卷积后的Feature Map大小是有关系的。事实上，它们满足下面的关系：
+<center><img alt="gs.png" src="https://i.loli.net/2019/08/14/5TBiWQopOwhumt7.png" /></center></p>
+<p>前面我们已经讲了深度为1的卷积层的计算方法，如果深度大于1怎么计算呢？其实也是类似的。如果卷积前的图像深度为D，那么相应的filter的深度也必须为D。我们扩展一下式1，得到了深度大于1的卷积计算公式：
+<center><img alt="gs1.png" src="https://i.loli.net/2019/08/14/FC6ghVlQBTUZoLE.png" /></center></p>
+<p>在式4中，D是深度；F是filter的大小(宽度或高度，两者相同)；表示filter的第层第行第列权重；Wd,m,n表示图像的第d层第m行第n列像素；其它的符号含义和式1是相同的，不再赘述。</p>
+<p>我们前面还曾提到，每个卷积层可以有多个filter。每个filter和原始图像进行卷积后，都可以得到一个Feature Map。因此，卷积后Feature Map的深度(个数)和卷积层的filter个数是相同的。</p>
+<p>下面的动画显示了包含两个filter的卷积层的计算。我们可以看到7*7*3输入，经过两个3*3*3filter的卷积(步幅为2)，得到了3*3*2的输出。另外我们也会看到下图的Zero padding是1，也就是在输入元素的周围补了一圈0。Zero padding对于图像边缘部分的特征提取是很有帮助的。
+<center><img alt="cc.gif" src="https://i.loli.net/2019/08/14/K3Zp4ucYBVFQWms.gif" /></center></p>
+<p>以上就是卷积层的计算方法。这里面体现了<strong>局部连接</strong>和<strong>权值共享</strong>：每层神经元只和上一层部分神经元相连(卷积计算规则)，且filter的权值对于上一层所有神经元都是一样的。对于包含两个3*3*3的fitler的卷积层来说，其参数数量仅有(3*3*3+1)*2=56个，且参数数量与上一层神经元个数无关。与全连接神经网络相比，其参数数量大大减少了。</p>
+<p>式4的表达很是繁冗，最好能简化一下。就像利用矩阵可以简化表达全连接神经网络的计算一样，我们可以利用<a href="https://www.zybuluo.com/hanbingtao/note/485480#用卷积公式来表达卷积层计算">卷积公式来简化卷积神经网络的表达</a>。</p>
+<h3 id="pooling">池化(Pooling)层输出值计算<a class="headerlink" href="#pooling" title="Permanent link">&para;</a></h3>
+<p>Pooling层主要的作用是<strong>下采样</strong>，通过去掉Feature Map中不重要的样本，进一步减少参数数量。Pooling的方法很多，最常用的是<strong>Max Pooling</strong>。Max Pooling实际上就是在n*n的样本中取最大值，作为采样后的样本值。下图是2*2 max pooling：
+<center><img alt="pool.png" src="https://i.loli.net/2019/08/14/QoaJVYwrx6u8cyI.png" /></center>
+除了Max Pooing之外，常用的还有<strong>Mean Pooling</strong>——取各样本的平均值。</p>
+<p>对于深度为D的Feature Map，各层独立做Pooling，因此Pooling后的深度仍然为D。</p>
+<h3 id="connected">全连接(Connected)层输出值计算<a class="headerlink" href="#connected" title="Permanent link">&para;</a></h3>
+<p>全连接层输出值的计算和上一篇文章<a href="https://uppez.github.io/project/ai/ANN/">神经网络</a>讲过的全连接神经网络是一样的，这里就不再赘述了。</p>
+<h2 id="_6">训练<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
+<p>和全连接神经网络相比，卷积神经网络的训练要复杂一些。但训练的原理是一样的：利用<strong>链式求导</strong>计算损失函数对每个权重的偏导数（梯度），然后根据梯度下降公式更新权重。训练算法依然是反向传播算法。</p>
+<p>我们先回忆一下上一篇文章<a href="https://uppez.github.io/project/ai/ANN/">神经网络</a>介绍的反向传播算法，整个算法分为三个步骤：</p>
+<p><center><img alt="ggggss.png" src="https://i.loli.net/2019/08/15/dZm7v2VzEYhO9Ri.png" /></center>
+对于卷积神经网络，由于涉及到<strong>局部连接</strong>、<strong>下采样</strong>的等操作，影响到了第二步误差项δ的具体计算方法，而权值共享影响了第三步权重的梯度的计算方法。接下来，我们分别介绍卷积层和Pooling层的训练算法。</p>
+<h3 id="_7">卷积层训练<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h3>
+<p>对于卷积层，我们先来看看上面的第二步，即如何将误差项δ传递到上一层；然后再来看看第三步，即如何计算filter每个权值的梯度。</p>
+<h4 id="_8">卷积层误差项的传递<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h4>
+<h5 id="_9">最简单情况下误差项的传递<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h5>
+<p><center><img alt="xin1.png" src="https://i.loli.net/2019/08/15/76PihenBWtYsgQ5.png" /></center></p>
+<h5 id="s">卷积步长为S时的误差传递<a class="headerlink" href="#s" title="Permanent link">&para;</a></h5>
+<p><center><img alt="xin2.png" src="https://i.loli.net/2019/08/15/zjD7mC3fwcTyOQE.png" /></center></p>
+<h5 id="d">输入层深度为D时的误差传递<a class="headerlink" href="#d" title="Permanent link">&para;</a></h5>
+<p><center><img alt="xin3.png" src="https://i.loli.net/2019/08/15/kjPI9Klpz6aYvnM.png" /></center></p>
+<h5 id="filtern">filter数量为N时的误差传递<a class="headerlink" href="#filtern" title="Permanent link">&para;</a></h5>
+<p><center><img alt="xin4.png" src="https://i.loli.net/2019/08/15/j3zcbUSL1atfPdR.png" /></center></p>
+<h4 id="filter">卷积层filter权重梯度的计算<a class="headerlink" href="#filter" title="Permanent link">&para;</a></h4>
+<p><center><img alt="xin5.png" src="https://i.loli.net/2019/08/15/RJr5wYSNKcEhfQz.png" /></center></p>
+<h3 id="_10">池化层训练<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h3>
+<h4 id="max-pooling">Max Pooling误差项的传递<a class="headerlink" href="#max-pooling" title="Permanent link">&para;</a></h4>
+<p><center><img alt="xin6.png" src="https://i.loli.net/2019/08/15/9LecFrPSqykE18o.png" /></center></p>
+<h4 id="mean-pooling">Mean Pooling误差项的传递<a class="headerlink" href="#mean-pooling" title="Permanent link">&para;</a></h4>
+<p><center><img alt="xin7.png" src="https://i.loli.net/2019/08/15/QRHapuPhxOtygC3.png" /></center></p>
+<h2 id="_11">经典的卷积神经网络<a class="headerlink" href="#_11" title="Permanent link">&para;</a></h2>
+<ol>
+<li>LeNet</li>
+</ol>
+<p>LeNet诞生于1994年，由深度学习三巨头之一的Yan LeCun提出，他也被称为卷积神经网络之父。LeNet主要用来进行手写字符的识别与分类，准确率达到了98%，并在美国的银行中投入了使用，被用于读取北美约10%的支票。LeNet奠定了现代卷积神经网络的基础。</p>
+<ol>
+<li>AlexNet</li>
+</ol>
+<p>AlexNet由Hinton的学生Alex Krizhevsky于2012年提出，并在当年取得了Imagenet比赛冠军。AlexNet可以算是LeNet的一种更深更宽的版本，证明了卷积神经网络在复杂模型下的有效性，算是神经网络在低谷期的第一次发声，确立了深度学习，或者说卷积神经网络在计算机视觉中的统治地位。</p>
+<ol>
+<li>VGGNet</li>
+</ol>
+<p>VGGNet是牛津大学计算机视觉组和Google DeepMind公司一起研发的深度卷积神经网络，并取得了2014年Imagenet比赛定位项目第一名和分类项目第二名。该网络主要是泛化性能很好，容易迁移到其他的图像识别项目上，可以下载VGGNet训练好的参数进行很好的初始化权重操作，很多卷积神经网络都是以该网络为基础，比如FCN，UNet，SegNet等。vgg版本很多，常用的是VGG16，VGG19网络。</p>
+<ol>
+<li>ResNet</li>
+</ol>
+<p>ResNet（残差神经网络）由微软研究院的何凯明等4名华人于2015年提出，成功训练了152层超级深的卷积神经网络，效果非常突出，而且容易结合到其他网络结构中。在五个主要任务轨迹中都获得了第一名的成绩：</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>            ImageNet分类任务：错误率3.57%
+
+            ImageNet检测任务：超过第二名16%
+
+            ImageNet定位任务：超过第二名27%
+
+            COCO检测任务：超过第二名11%
+
+            COCO分割任务：超过第二名12%
+</pre></div>
+</td></tr></table>
+
+<p>发展图:</p>
+<p><center><img alt="tz.png" src="https://i.loli.net/2019/08/15/3rtqGJUpTxdY25j.png" /></center></p>
+<h2 id="_12">代码实现<a class="headerlink" href="#_12" title="Permanent link">&para;</a></h2>
+<h3 id="tensorflowcnn">基于Tensorflow的CNN实现手写体识别<a class="headerlink" href="#tensorflowcnn" title="Permanent link">&para;</a></h3>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>  1
+  2
+  3
+  4
+  5
+  6
+  7
+  8
+  9
+ 10
+ 11
+ 12
+ 13
+ 14
+ 15
+ 16
+ 17
+ 18
+ 19
+ 20
+ 21
+ 22
+ 23
+ 24
+ 25
+ 26
+ 27
+ 28
+ 29
+ 30
+ 31
+ 32
+ 33
+ 34
+ 35
+ 36
+ 37
+ 38
+ 39
+ 40
+ 41
+ 42
+ 43
+ 44
+ 45
+ 46
+ 47
+ 48
+ 49
+ 50
+ 51
+ 52
+ 53
+ 54
+ 55
+ 56
+ 57
+ 58
+ 59
+ 60
+ 61
+ 62
+ 63
+ 64
+ 65
+ 66
+ 67
+ 68
+ 69
+ 70
+ 71
+ 72
+ 73
+ 74
+ 75
+ 76
+ 77
+ 78
+ 79
+ 80
+ 81
+ 82
+ 83
+ 84
+ 85
+ 86
+ 87
+ 88
+ 89
+ 90
+ 91
+ 92
+ 93
+ 94
+ 95
+ 96
+ 97
+ 98
+ 99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="c1">#coding:utf-8</span>
+<span class="kn">import</span> <span class="nn">tensorflow</span> <span class="kn">as</span> <span class="nn">tf</span>
+<span class="c1">#import MNIST_data.input_data as input_data</span>
+<span class="kn">from</span> <span class="nn">tensorflow.examples.tutorials.mnist</span> <span class="kn">import</span> <span class="n">input_data</span>
+<span class="kn">import</span> <span class="nn">time</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">权重初始化</span>
+<span class="sd">初始化为一个接近0的很小的正数</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="k">def</span> <span class="nf">weight_variable</span><span class="p">(</span><span class="n">shape</span><span class="p">):</span>
+    <span class="n">initial</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">truncated_normal</span><span class="p">(</span><span class="n">shape</span><span class="p">,</span> <span class="n">stddev</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="n">initial</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">bias_variable</span><span class="p">(</span><span class="n">shape</span><span class="p">):</span>
+    <span class="n">initial</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">constant</span><span class="p">(</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">shape</span> <span class="o">=</span> <span class="n">shape</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="n">initial</span><span class="p">)</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">卷积和池化，使用卷积步长为1（stride size）,0边距（padding size）</span>
+<span class="sd">池化用简单传统的2x2大小的模板做max pooling</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="k">def</span> <span class="nf">conv2d</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">W</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">conv2d</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">W</span><span class="p">,</span> <span class="n">strides</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">padding</span> <span class="o">=</span> <span class="s1">&#39;SAME&#39;</span><span class="p">)</span>
+    <span class="c1"># tf.nn.conv2d(input, filter, strides, padding, use_cudnn_on_gpu=None, data_format=None, name=None)</span>
+    <span class="c1"># x(input)  : [batch, in_height, in_width, in_channels]</span>
+    <span class="c1"># W(filter) : [filter_height, filter_width, in_channels, out_channels]</span>
+    <span class="c1"># strides   : The stride of the sliding window for each dimension of input.</span>
+    <span class="c1">#             For the most common case of the same horizontal and vertices strides, strides = [1, stride, stride, 1]</span>
+
+<span class="k">def</span> <span class="nf">max_pool_2x2</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">max_pool</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">ksize</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+                          <span class="n">strides</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">padding</span> <span class="o">=</span> <span class="s1">&#39;SAME&#39;</span><span class="p">)</span>
+    <span class="c1"># tf.nn.max_pool(value, ksize, strides, padding, data_format=&#39;NHWC&#39;, name=None)</span>
+    <span class="c1"># x(value)              : [batch, height, width, channels]</span>
+    <span class="c1"># ksize(pool大小)        : A list of ints that has length &gt;= 4. The size of the window for each dimension of the input tensor.</span>
+    <span class="c1"># strides(pool滑动大小)   : A list of ints that has length &gt;= 4. The stride of the sliding window for each dimension of the input tensor.</span>
+
+<span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">clock</span><span class="p">()</span> <span class="c1">#计算开始时间</span>
+<span class="n">mnist</span> <span class="o">=</span> <span class="n">input_data</span><span class="o">.</span><span class="n">read_data_sets</span><span class="p">(</span><span class="s2">&quot;MNIST_data/&quot;</span><span class="p">,</span> <span class="n">one_hot</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span> <span class="c1">#MNIST数据输入</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">第一层 卷积层</span>
+
+<span class="sd">x_image(batch, 28, 28, 1) -&gt; h_pool1(batch, 14, 14, 32)</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">placeholder</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">,[</span><span class="bp">None</span><span class="p">,</span> <span class="mi">784</span><span class="p">])</span>
+<span class="n">x_image</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span> <span class="c1">#最后一维代表通道数目，如果是rgb则为3 </span>
+<span class="n">W_conv1</span> <span class="o">=</span> <span class="n">weight_variable</span><span class="p">([</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">32</span><span class="p">])</span>
+<span class="n">b_conv1</span> <span class="o">=</span> <span class="n">bias_variable</span><span class="p">([</span><span class="mi">32</span><span class="p">])</span>
+
+<span class="n">h_conv1</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="n">conv2d</span><span class="p">(</span><span class="n">x_image</span><span class="p">,</span> <span class="n">W_conv1</span><span class="p">)</span> <span class="o">+</span> <span class="n">b_conv1</span><span class="p">)</span>
+<span class="c1"># x_image -&gt; [batch, in_height, in_width, in_channels]</span>
+<span class="c1">#            [batch, 28, 28, 1]</span>
+<span class="c1"># W_conv1 -&gt; [filter_height, filter_width, in_channels, out_channels]</span>
+<span class="c1">#            [5, 5, 1, 32]</span>
+<span class="c1"># output  -&gt; [batch, out_height, out_width, out_channels]</span>
+<span class="c1">#            [batch, 28, 28, 32]</span>
+<span class="n">h_pool1</span> <span class="o">=</span> <span class="n">max_pool_2x2</span><span class="p">(</span><span class="n">h_conv1</span><span class="p">)</span>
+<span class="c1"># h_conv1 -&gt; [batch, in_height, in_weight, in_channels]</span>
+<span class="c1">#            [batch, 28, 28, 32]</span>
+<span class="c1"># output  -&gt; [batch, out_height, out_weight, out_channels]</span>
+<span class="c1">#            [batch, 14, 14, 32]</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">第二层 卷积层</span>
+
+<span class="sd">h_pool1(batch, 14, 14, 32) -&gt; h_pool2(batch, 7, 7, 64)</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="n">W_conv2</span> <span class="o">=</span> <span class="n">weight_variable</span><span class="p">([</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">64</span><span class="p">])</span>
+<span class="n">b_conv2</span> <span class="o">=</span> <span class="n">bias_variable</span><span class="p">([</span><span class="mi">64</span><span class="p">])</span>
+
+<span class="n">h_conv2</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="n">conv2d</span><span class="p">(</span><span class="n">h_pool1</span><span class="p">,</span> <span class="n">W_conv2</span><span class="p">)</span> <span class="o">+</span> <span class="n">b_conv2</span><span class="p">)</span>
+<span class="c1"># h_pool1 -&gt; [batch, 14, 14, 32]</span>
+<span class="c1"># W_conv2 -&gt; [5, 5, 32, 64]</span>
+<span class="c1"># output  -&gt; [batch, 14, 14, 64]</span>
+<span class="n">h_pool2</span> <span class="o">=</span> <span class="n">max_pool_2x2</span><span class="p">(</span><span class="n">h_conv2</span><span class="p">)</span>
+<span class="c1"># h_conv2 -&gt; [batch, 14, 14, 64]</span>
+<span class="c1"># output  -&gt; [batch, 7, 7, 64]</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">第三层 全连接层</span>
+
+<span class="sd">h_pool2(batch, 7, 7, 64) -&gt; h_fc1(1, 1024)</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="n">W_fc1</span> <span class="o">=</span> <span class="n">weight_variable</span><span class="p">([</span><span class="mi">7</span> <span class="o">*</span> <span class="mi">7</span> <span class="o">*</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">1024</span><span class="p">])</span>
+<span class="n">b_fc1</span> <span class="o">=</span> <span class="n">bias_variable</span><span class="p">([</span><span class="mi">1024</span><span class="p">])</span>
+
+<span class="n">h_pool2_flat</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">h_pool2</span><span class="p">,</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">7</span> <span class="o">*</span> <span class="mi">7</span> <span class="o">*</span> <span class="mi">64</span><span class="p">])</span>
+<span class="n">h_fc1</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">h_pool2_flat</span><span class="p">,</span> <span class="n">W_fc1</span><span class="p">)</span> <span class="o">+</span> <span class="n">b_fc1</span><span class="p">)</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Dropout</span>
+
+<span class="sd">h_fc1 -&gt; h_fc1_drop, 训练中启用，测试中关闭</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="n">keep_prob</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">placeholder</span><span class="p">(</span><span class="s2">&quot;float&quot;</span><span class="p">)</span>
+<span class="n">h_fc1_drop</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">dropout</span><span class="p">(</span><span class="n">h_fc1</span><span class="p">,</span> <span class="n">keep_prob</span><span class="p">)</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">第四层 Softmax输出层</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="n">W_fc2</span> <span class="o">=</span> <span class="n">weight_variable</span><span class="p">([</span><span class="mi">1024</span><span class="p">,</span> <span class="mi">10</span><span class="p">])</span>
+<span class="n">b_fc2</span> <span class="o">=</span> <span class="n">bias_variable</span><span class="p">([</span><span class="mi">10</span><span class="p">])</span>
+
+<span class="n">y_conv</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">softmax</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">h_fc1_drop</span><span class="p">,</span> <span class="n">W_fc2</span><span class="p">)</span> <span class="o">+</span> <span class="n">b_fc2</span><span class="p">)</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">训练和评估模型</span>
+
+<span class="sd">ADAM优化器来做梯度最速下降,feed_dict中加入参数keep_prob控制dropout比例</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="n">y_</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">placeholder</span><span class="p">(</span><span class="s2">&quot;float&quot;</span><span class="p">,</span> <span class="p">[</span><span class="bp">None</span><span class="p">,</span> <span class="mi">10</span><span class="p">])</span>
+<span class="n">cross_entropy</span> <span class="o">=</span> <span class="o">-</span><span class="n">tf</span><span class="o">.</span><span class="n">reduce_sum</span><span class="p">(</span><span class="n">y_</span> <span class="o">*</span> <span class="n">tf</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">y_conv</span><span class="p">))</span> <span class="c1">#计算交叉熵</span>
+<span class="n">train_step</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">AdamOptimizer</span><span class="p">(</span><span class="mf">1e-4</span><span class="p">)</span><span class="o">.</span><span class="n">minimize</span><span class="p">(</span><span class="n">cross_entropy</span><span class="p">)</span> <span class="c1">#使用adam优化器来以0.0001的学习率来进行微调</span>
+<span class="n">correct_prediction</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">equal</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">y_conv</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="n">tf</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">y_</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span> <span class="c1">#判断预测标签和实际标签是否匹配</span>
+<span class="n">accuracy</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reduce_mean</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">correct_prediction</span><span class="p">,</span><span class="s2">&quot;float&quot;</span><span class="p">))</span>
+
+<span class="n">sess</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Session</span><span class="p">()</span> <span class="c1">#启动创建的模型</span>
+<span class="n">sess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">initialize_all_variables</span><span class="p">())</span> <span class="c1">#旧版本</span>
+<span class="c1">#sess.run(tf.global_variables_initializer()) #初始化变量</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1000</span><span class="p">):</span> <span class="c1">#开始训练模型，循环训练5000次</span>
+    <span class="n">batch</span> <span class="o">=</span> <span class="n">mnist</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">next_batch</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span> <span class="c1">#batch大小设置为50</span>
+    <span class="k">if</span> <span class="n">i</span> <span class="o">%</span> <span class="mi">100</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">train_accuracy</span> <span class="o">=</span> <span class="n">accuracy</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="n">session</span> <span class="o">=</span> <span class="n">sess</span><span class="p">,</span>
+                                       <span class="n">feed_dict</span> <span class="o">=</span> <span class="p">{</span><span class="n">x</span><span class="p">:</span><span class="n">batch</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">y_</span><span class="p">:</span><span class="n">batch</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">keep_prob</span><span class="p">:</span><span class="mf">1.0</span><span class="p">})</span>
+        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;step </span><span class="si">%d</span><span class="s2">, train_accuracy </span><span class="si">%g</span><span class="s2">&quot;</span> <span class="o">%</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">train_accuracy</span><span class="p">))</span>
+    <span class="n">train_step</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">session</span> <span class="o">=</span> <span class="n">sess</span><span class="p">,</span> <span class="n">feed_dict</span> <span class="o">=</span> <span class="p">{</span><span class="n">x</span><span class="p">:</span><span class="n">batch</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">y_</span><span class="p">:</span><span class="n">batch</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                   <span class="n">keep_prob</span><span class="p">:</span><span class="mf">0.5</span><span class="p">})</span> <span class="c1">#神经元输出保持不变的概率 keep_prob 为0.5</span>
+
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;test accuracy </span><span class="si">%g</span><span class="s2">&quot;</span> <span class="o">%</span><span class="n">accuracy</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="n">session</span> <span class="o">=</span> <span class="n">sess</span><span class="p">,</span>
+      <span class="n">feed_dict</span> <span class="o">=</span> <span class="p">{</span><span class="n">x</span><span class="p">:</span><span class="n">mnist</span><span class="o">.</span><span class="n">test</span><span class="o">.</span><span class="n">images</span><span class="p">,</span> <span class="n">y_</span><span class="p">:</span><span class="n">mnist</span><span class="o">.</span><span class="n">test</span><span class="o">.</span><span class="n">labels</span><span class="p">,</span>
+                   <span class="n">keep_prob</span><span class="p">:</span><span class="mf">1.0</span><span class="p">}))</span> <span class="c1">#神经元输出保持不变的概率 keep_prob 为 1，即不变，一直保持输出</span>
+
+<span class="n">end</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">clock</span><span class="p">()</span> <span class="c1">#计算程序结束时间</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;running time is:&quot;</span><span class="p">,(</span><span class="n">end</span><span class="o">-</span><span class="n">start</span><span class="p">))</span>
+</pre></div>
+</td></tr></table>
+
+<details class="note"><summary>卷积神经网络运行结果查看</summary><p><img alt="jjjg.png" src="https://i.loli.net/2019/08/22/t3Yjc6AfzwEPb1S.png" /></p>
+</details>
+<h3 id="_13">其他实现<a class="headerlink" href="#_13" title="Permanent link">&para;</a></h3>
+<p>(后续更新...)</p>
+<p><center><img alt="ip2.png" src="https://i.loli.net/2019/08/12/UAucR7WTZv6mi2y.png" /></center></p>
+<p><img alt="🎁" class="emojione" src="https://cdn.jsdelivr.net/emojione/assets/svg/1f381.svg" title=":gift:" /><strong>文章末尾小彩蛋</strong>:一份深度学习的资料</p>
+<p>①<a href="http://t.cn/AiHopese">蓝奏云下载</a></p>
+<p>②<a href="https://pan.baidu.com/s/10ZxVu6Yd_49wz4Qgog-5Kg">百度网盘备用下载(提取码:41j3)</a></p>
+                
+                  
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid">
+        
+          <a href="../ANN/" title="2. 神经网络算法" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
+            </div>
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  后退
+                </span>
+                2. 神经网络算法
+              </span>
+            </div>
+          </a>
+        
+        
+          <a href="../rnn/" title="4. 循环神经网络" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  前进
+                </span>
+                4. 循环神经网络
+              </span>
+            </div>
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        powered by
+        <a href="https://www.mkdocs.org">MkDocs</a>
+        and
+        <a href="https://squidfunk.github.io/mkdocs-material/">
+          Material for MkDocs</a>
+      </div>
+      
+        
+  <div class="md-footer-social">
+    <link rel="stylesheet" href="../../assets/fonts/font-awesome.css">
+    
+      <a href="https://github.com/WangRongsheng" class="md-footer-social__link fa fa-github"></a>
+    
+  </div>
+
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../../assets/javascripts/application.5e60981f.js"></script>
+      
+        
+        
+          
+          <script src="../../assets/javascripts/lunr/lunr.stemmer.support.js"></script>
+          
+            
+              
+              
+            
+          
+          
+        
+      
+      <script>app.initialize({version:"1.0.4",url:{base:"../.."}})</script>
+      
+    
+    
+      
+    
+  </body>
+</html>

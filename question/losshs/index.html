@@ -1,0 +1,1506 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      <meta http-equiv="x-ua-compatible" content="ie=edge">
+      
+        <meta name="description" content="越努力越幸运">
+      
+      
+        <link rel="canonical" href="https://github.com/WangRongsheng/question/losshs/">
+      
+      
+        <meta name="author" content="王荣胜">
+      
+      
+        <meta name="lang:clipboard.copy" content="复制">
+      
+        <meta name="lang:clipboard.copied" content="已复制">
+      
+        <meta name="lang:search.language" content="zh">
+      
+        <meta name="lang:search.pipeline.stopwords" content="True">
+      
+        <meta name="lang:search.pipeline.trimmer" content="True">
+      
+        <meta name="lang:search.result.none" content="没有找到符合条件的结果">
+      
+        <meta name="lang:search.result.one" content="找到 1 个符合条件的结果">
+      
+        <meta name="lang:search.result.other" content="# 个符合条件的结果">
+      
+        <meta name="lang:search.tokenizer" content="[\uff0c\u3002]+">
+      
+      <link rel="shortcut icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-3.0.6">
+    
+    
+      
+        <title>5. 损失函数 - 教书的先生</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/application.451f80e5.css">
+      
+        <link rel="stylesheet" href="../../assets/stylesheets/application-palette.22915126.css">
+      
+      
+        
+        
+        <meta name="theme-color" content="#3f51b5">
+      
+    
+    
+      <script src="../../assets/javascripts/modernizr.1aa3b519.js"></script>
+    
+    
+      
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700|Roboto+Mono">
+        <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
+      
+    
+    <link rel="stylesheet" href="../../assets/fonts/material-icons.css">
+    
+      <link rel="stylesheet" href="../../_static/extra.css">
+    
+    
+  </head>
+  
+    
+    
+    <body dir="ltr" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    <svg class="md-svg">
+      <defs>
+        
+        
+          <svg xmlns="http://www.w3.org/2000/svg" width="416" height="448"
+    viewBox="0 0 416 448" id="__github">
+  <path fill="currentColor" d="M160 304q0 10-3.125 20.5t-10.75 19-18.125
+        8.5-18.125-8.5-10.75-19-3.125-20.5 3.125-20.5 10.75-19 18.125-8.5
+        18.125 8.5 10.75 19 3.125 20.5zM320 304q0 10-3.125 20.5t-10.75
+        19-18.125 8.5-18.125-8.5-10.75-19-3.125-20.5 3.125-20.5 10.75-19
+        18.125-8.5 18.125 8.5 10.75 19 3.125 20.5zM360
+        304q0-30-17.25-51t-46.75-21q-10.25 0-48.75 5.25-17.75 2.75-39.25
+        2.75t-39.25-2.75q-38-5.25-48.75-5.25-29.5 0-46.75 21t-17.25 51q0 22 8
+        38.375t20.25 25.75 30.5 15 35 7.375 37.25 1.75h42q20.5 0
+        37.25-1.75t35-7.375 30.5-15 20.25-25.75 8-38.375zM416 260q0 51.75-15.25
+        82.75-9.5 19.25-26.375 33.25t-35.25 21.5-42.5 11.875-42.875 5.5-41.75
+        1.125q-19.5 0-35.5-0.75t-36.875-3.125-38.125-7.5-34.25-12.875-30.25-20.25-21.5-28.75q-15.5-30.75-15.5-82.75
+        0-59.25 34-99-6.75-20.5-6.75-42.5 0-29 12.75-54.5 27 0 47.5 9.875t47.25
+        30.875q36.75-8.75 77.25-8.75 37 0 70 8 26.25-20.5
+        46.75-30.25t47.25-9.75q12.75 25.5 12.75 54.5 0 21.75-6.75 42 34 40 34
+        99.5z" />
+</svg>
+        
+      </defs>
+    </svg>
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
+    
+      <a href="#_1" tabindex="1" class="md-skip">
+        跳转至
+      </a>
+    
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid">
+    <div class="md-flex">
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <a href="https://github.com/WangRongsheng" title="教书的先生" class="md-header-nav__button md-logo">
+          
+            <i class="md-icon"></i>
+          
+        </a>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <label class="md-icon md-icon--menu md-header-nav__button" for="__drawer"></label>
+      </div>
+      <div class="md-flex__cell md-flex__cell--stretch">
+        <div class="md-flex__ellipsis md-header-nav__title" data-md-component="title">
+          
+            
+              <span class="md-header-nav__topic">
+                教书的先生
+              </span>
+              <span class="md-header-nav__topic">
+                5. 损失函数
+              </span>
+            
+          
+        </div>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        
+          
+            <label class="md-icon md-icon--search md-header-nav__button" for="__search"></label>
+            
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query" data-md-state="active">
+      <label class="md-icon md-search__icon" for="__search"></label>
+      <button type="reset" class="md-icon md-search__icon" data-md-component="reset" tabindex="-1">
+        &#xE5CD;
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="result">
+          <div class="md-search-result__meta">
+            键入以开始搜索
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+          
+        
+      </div>
+      
+        <div class="md-flex__cell md-flex__cell--shrink">
+          <div class="md-header-nav__source">
+            
+
+
+  
+
+
+  <a href="https://github.com/WangRongsheng/" title="前往 Github 仓库" class="md-source" data-md-source="github">
+    
+      <div class="md-source__icon">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+          <use xlink:href="#__github" width="24" height="24"></use>
+        </svg>
+      </div>
+    
+    <div class="md-source__repository">
+      GitHub
+    </div>
+  </a>
+
+          </div>
+        </div>
+      
+    </div>
+  </nav>
+</header>
+    
+    <div class="md-container">
+      
+        
+      
+      
+        
+
+  
+
+<nav class="md-tabs md-tabs--active" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../.." title="介绍" class="md-tabs__link">
+          介绍
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../ai/knn/" title="机器学习" class="md-tabs__link">
+          机器学习
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../ai/tdxj/" title="深度学习" class="md-tabs__link">
+          深度学习
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../pj/" title="知识点" class="md-tabs__link md-tabs__link--active">
+          知识点
+        </a>
+      
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+      
+      <main class="md-main">
+        <div class="md-main__inner md-grid" data-md-component="container">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <nav class="md-nav md-nav--primary" data-md-level="0">
+  <label class="md-nav__title md-nav__title--site" for="__drawer">
+    <a href="https://github.com/WangRongsheng" title="教书的先生" class="md-nav__button md-logo">
+      
+        <i class="md-icon"></i>
+      
+    </a>
+    教书的先生
+  </label>
+  
+    <div class="md-nav__source">
+      
+
+
+  
+
+
+  <a href="https://github.com/WangRongsheng/" title="前往 Github 仓库" class="md-source" data-md-source="github">
+    
+      <div class="md-source__icon">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+          <use xlink:href="#__github" width="24" height="24"></use>
+        </svg>
+      </div>
+    
+    <div class="md-source__repository">
+      GitHub
+    </div>
+  </a>
+
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-1" type="checkbox" id="nav-1">
+    
+    <label class="md-nav__link" for="nav-1">
+      介绍
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-1">
+        介绍
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../.." title="介绍" class="md-nav__link">
+      介绍
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../about/" title="关于" class="md-nav__link">
+      关于
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tj/" title="信息" class="md-nav__link">
+      信息
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2">
+    
+    <label class="md-nav__link" for="nav-2">
+      机器学习
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-2">
+        机器学习
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../ai/knn/" title="1. K-最近邻算法" class="md-nav__link">
+      1. K-最近邻算法
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../ai/k-means/" title="2. K-均值算法" class="md-nav__link">
+      2. K-均值算法
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../ai/mf/" title="3. 基于矩阵分解的推荐系统" class="md-nav__link">
+      3. 基于矩阵分解的推荐系统
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../ai/usercf/" title="4. 基于用户的协同过滤" class="md-nav__link">
+      4. 基于用户的协同过滤
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../ai/itemcf/" title="5. 基于项目的协同过滤" class="md-nav__link">
+      5. 基于项目的协同过滤
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../ai/psbys/" title="6. 朴素贝叶斯分类" class="md-nav__link">
+      6. 朴素贝叶斯分类
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../ai/bpr/" title="7. 贝叶斯个性化排序" class="md-nav__link">
+      7. 贝叶斯个性化排序
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../ai/jcs/" title="8. 决策树" class="md-nav__link">
+      8. 决策树
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../ai/sjsl/" title="9. 随机森林" class="md-nav__link">
+      9. 随机森林
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3">
+    
+    <label class="md-nav__link" for="nav-3">
+      深度学习
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-3">
+        深度学习
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../ai/tdxj/" title="1. 梯度下降算法" class="md-nav__link">
+      1. 梯度下降算法
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../ai/ANN/" title="2. 神经网络算法" class="md-nav__link">
+      2. 神经网络算法
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../ai/jj/" title="3. 卷积神经网络" class="md-nav__link">
+      3. 卷积神经网络
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../ai/rnn/" title="4. 循环神经网络" class="md-nav__link">
+      4. 循环神经网络
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../ai/lstm/" title="5. 长短时记忆网络" class="md-nav__link">
+      5. 长短时记忆网络
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../ai/dg/" title="6. 递归神经网络" class="md-nav__link">
+      6. 递归神经网络
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4" checked>
+    
+    <label class="md-nav__link" for="nav-4">
+      知识点
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-4">
+        知识点
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../pj/" title="1. 评价指标" class="md-nav__link">
+      1. 评价指标
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../txtz/" title="2. 梯度消失与爆炸" class="md-nav__link">
+      2. 梯度消失与爆炸
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../cwpd/" title="3. Loss分析" class="md-nav__link">
+      3. Loss分析
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../sjc/" title="4. 时间戳" class="md-nav__link">
+      4. 时间戳
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        5. 损失函数
+      </label>
+    
+    <a href="./" title="5. 损失函数" class="md-nav__link md-nav__link--active">
+      5. 损失函数
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+  
+    <label class="md-nav__title" for="__toc">目录</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" title="介绍" class="md-nav__link">
+    介绍
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" title="目录" class="md-nav__link">
+    目录
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" title="什么是损失函数？" class="md-nav__link">
+    什么是损失函数？
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" title="回归损失函数" class="md-nav__link">
+    回归损失函数
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" title="平方误差损失" class="md-nav__link">
+    平方误差损失
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" title="绝对误差损失" class="md-nav__link">
+    绝对误差损失
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#huber" title="Huber损失" class="md-nav__link">
+    Huber损失
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" title="二分类损失函数" class="md-nav__link">
+    二分类损失函数
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_8" title="二元交叉熵损失" class="md-nav__link">
+    二元交叉熵损失
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hinge" title="Hinge损失" class="md-nav__link">
+    Hinge损失
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_9" title="多分类损失函数" class="md-nav__link">
+    多分类损失函数
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_10" title="多分类交叉熵损失" class="md-nav__link">
+    多分类交叉熵损失
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#kl" title="KL散度" class="md-nav__link">
+    KL散度
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../ad/" title="6. 鞍点" class="md-nav__link">
+      6. 鞍点
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../bn/" title="7. BN层" class="md-nav__link">
+      7. BN层
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../h5/" title="8. H5文件" class="md-nav__link">
+      8. H5文件
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../meta-path/" title="9. Meta Path" class="md-nav__link">
+      9. Meta Path
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary">
+  
+  
+  
+    <label class="md-nav__title" for="__toc">目录</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" title="介绍" class="md-nav__link">
+    介绍
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" title="目录" class="md-nav__link">
+    目录
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" title="什么是损失函数？" class="md-nav__link">
+    什么是损失函数？
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" title="回归损失函数" class="md-nav__link">
+    回归损失函数
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" title="平方误差损失" class="md-nav__link">
+    平方误差损失
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" title="绝对误差损失" class="md-nav__link">
+    绝对误差损失
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#huber" title="Huber损失" class="md-nav__link">
+    Huber损失
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" title="二分类损失函数" class="md-nav__link">
+    二分类损失函数
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_8" title="二元交叉熵损失" class="md-nav__link">
+    二元交叉熵损失
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hinge" title="Hinge损失" class="md-nav__link">
+    Hinge损失
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_9" title="多分类损失函数" class="md-nav__link">
+    多分类损失函数
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_10" title="多分类交叉熵损失" class="md-nav__link">
+    多分类交叉熵损失
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#kl" title="KL散度" class="md-nav__link">
+    KL散度
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                  <a href="https://github.com/WangRongsheng/edit/master/docs/question/losshs.md" title="编辑此页" class="md-icon md-content__icon">&#xE3C9;</a>
+                
+                
+                  <h1>5. 损失函数</h1>
+                
+                <h2 id="_1">介绍<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<p>想象一下-你已经在给定的数据集上训练了机器学习模型，并准备好将它交付给客户。但是，你如何确定该模型能够提供最佳结果?是否有指标或技术可以帮助你快速评估数据集上的模型?</p>
+<p>当然是有的，简而言之，机器学习中损失函数可以解决以上问题。</p>
+<p>损失函数是我们喜欢使用的机器学习算法的核心。但大多数初学者和爱好者不清楚如何以及在何处使用它们。</p>
+<p>它们并不难理解，反而可以增强你对机器学习算法的理解。那么，什么是损失函数，你如何理解它们的意义?
+在接下来我们介绍下机器学习中使用的7种常见损失函数，并解释每种函数的使用方法。</p>
+<h2 id="_2">目录<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<ul>
+<li>什么是损失函数？</li>
+<li>回归损失函数</li>
+<li>平方误差损失</li>
+<li>绝对误差损失</li>
+<li>Huber损失</li>
+<li>二分类损失函数</li>
+<li>二分类交叉熵</li>
+<li>Hinge损失</li>
+<li>多分类损失函数</li>
+<li>多分类交叉熵损失</li>
+<li>KL散度</li>
+</ul>
+<h3 id="_3">什么是损失函数？<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
+<p>假设你在山顶，需要下山。你如何决定走哪个方向？</p>
+<p>我要做的事情如下：</p>
+<ul>
+<li>环顾四周，看看所有可能的路径</li>
+<li>拒绝那些上升的路径。这是因为这些路径实际上会消耗更多的体力并使下山任务变得更加艰难</li>
+<li>最后，走我认为的坡度最大的路径</li>
+</ul>
+<p>关于我判断我的决策是否好坏的直觉，这正是损失函数能够提供的功能。</p>
+<blockquote>
+<p>损失函数将决策映射到其相关成本</p>
+</blockquote>
+<p>决定走上坡的路径将耗费我们的体力和时间。决定走下坡的路径将使我们受益。因此，下坡的成本是更小的。</p>
+<p>在有监督的机器学习算法中，我们希望在学习过程中最小化每个训练样例的误差。这是使用梯度下降等一些优化策略完成的。而这个误差来自损失函数。</p>
+<p><strong>损失函数(Loss Function)和成本函数(Cost Function)之间有什么区别？</strong></p>
+<p>在此强调这一点，尽管<strong>成本函数</strong>和<strong>损失函数</strong>是同义词并且可以互换使用，但它们是不同的。</p>
+<p>损失函数用于单个训练样本。它有时也称为<strong>误差函数</strong>(error function)。另一方面，成本函数是整个训练数据集的<strong>平均损失</strong>(average function)。优化策略旨在最小化成本函数。</p>
+<h3 id="_4">回归损失函数<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
+<p>此时你必须非常熟悉线性回归。它涉及对因变量Y和几个独立变量X之间的线性关系进行建模。
+因此，我们在空间中对这些数据拟合出一条直线或者超平面。</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="n">Y</span> <span class="o">=</span> <span class="n">a0</span> <span class="o">+</span> <span class="n">a1</span> <span class="o">*</span> <span class="n">X1</span> <span class="o">+</span> <span class="n">a2</span> <span class="o">*</span> <span class="n">X2</span> <span class="o">+</span> <span class="o">....+</span> <span class="n">an</span> <span class="o">*</span> <span class="n">Xn</span>
+</pre></div>
+</td></tr></table>
+
+<p>我们将使用给定的数据点来找到系数a0，a1，…，an。</p>
+<p><center><img alt="1.png" src="https://i.loli.net/2019/08/30/I4seLPKyrHujWOx.png" /></center></p>
+<p>我们将使用著名的波士顿住房数据集^1来理解这个概念。为了简单起见，我们将只使用一个特征-每个住宅的平均房间数(Average number of rooms per dwelling)(X)来预测因变量-1000美元价位的房屋的中位数价值(Median Value)(Y)</p>
+<p><center><img alt="2.png" src="https://i.loli.net/2019/08/30/SzUxEwRlVKstF3B.png" /></center></p>
+<p>我们将使用梯度下降(Gradient Descent)作为优化策略来查找回归线。我不会详细介绍Gradient Descent的细节，但这里提醒一下权重更新规则：</p>
+<p><center><img alt="3.jpg" src="https://i.loli.net/2019/08/30/J9Wkzh6DQpX1qO2.jpg" /></center></p>
+<p>这里，θ是要更新的权重，α是学习率，J是成本函数。成本函数由θ参数化。我们的目标是找到产生最小总成本的θ值。</p>
+<p>我已经为下面的每个损失函数定义了我们将遵循的步骤：</p>
+<ol>
+<li>写出预测函数f(X)的表达式，并确定我们需要找到的参数</li>
+<li>确定每个训练样本计算得到的损失</li>
+<li>找到成本函数(所有样本的平均损失)的表达式</li>
+<li>找到与每个未知参数相关的成本函数的梯度</li>
+<li>确定学习率并在固定次数中进行迭代执行权重更新规则</li>
+</ol>
+<h3 id="_5">平方误差损失<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
+<p>每个训练样本的平方误差损失(也称为L2 Loss)是实际值和预测值之差的平方：
+<center><img alt="4.jpg" src="https://i.loli.net/2019/08/30/39Kn7oaR8bFADxy.jpg" /></center>
+相应的成本函数是这些<strong>平方误差的平均值(MSE)</strong>。</p>
+<p>推荐你引用以下代码时先尝试自己计算出梯度</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">update_weights_MSE</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">learning_rate</span><span class="p">):</span>
+    <span class="n">m_deriv</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">b_deriv</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">N</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
+        <span class="c1"># 计算偏导数为</span>
+        <span class="c1"># -2x(y - (mx + b))</span>
+        <span class="n">m_deriv</span> <span class="o">+=</span> <span class="o">-</span><span class="mi">2</span><span class="o">*</span><span class="n">X</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">Y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="p">(</span><span class="n">m</span><span class="o">*</span><span class="n">X</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">b</span><span class="p">))</span>
+        <span class="c1"># -2(y - (mx + b))</span>
+        <span class="n">b_deriv</span> <span class="o">+=</span> <span class="o">-</span><span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="n">Y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="p">(</span><span class="n">m</span><span class="o">*</span><span class="n">X</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">b</span><span class="p">))</span>
+    <span class="c1"># 我们减去它，因为导数指向最陡的上升方向</span>
+    <span class="n">m</span> <span class="o">-=</span> <span class="p">(</span><span class="n">m_deriv</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">N</span><span class="p">))</span> <span class="o">*</span> <span class="n">learning_rate</span>
+    <span class="n">b</span> <span class="o">-=</span> <span class="p">(</span><span class="n">b_deriv</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">N</span><span class="p">))</span> <span class="o">*</span> <span class="n">learning_rate</span>
+
+    <span class="k">return</span> <span class="n">m</span><span class="p">,</span> <span class="n">b</span>
+</pre></div>
+</td></tr></table>
+
+<p>在波士顿住房数据上，在不同的学习率中分别迭代了500次得到下图：
+<center><img alt="5.png" src="https://i.loli.net/2019/08/30/82g1BuyaUW9bJzO.png" /></center></p>
+<p>让我们再谈谈MSE损失函数，它是一个二次函数(形式为ax^2+bx+c)，并且值大于等于0。二次函数的图形如下图所示：
+<center><img alt="6.png" src="https://i.loli.net/2019/08/30/3PNQCa8w4MFmJvO.png" /></center></p>
+<p>二次函数仅具有全局最小值。由于没有局部最小值，所以我们永远不会陷入它。因此，可以保证梯度下降将收敛到全局最小值(如果它完全收敛)。</p>
+<p>MSE损失函数通过平方误差来惩罚模型犯的大错误。把一个比较大的数平方会使它变得更大。但有一点需要注意，这个属性使MSE成本函数对异常值的健壮性降低。因此，<strong>如果我们的数据容易出现许多的异常值，则不应使用这个它</strong>。</p>
+<h3 id="_6">绝对误差损失<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h3>
+<p>每个训练样本的绝对误差是预测值和实际值之间的距离，与符号无关。绝对误差也称为L1 Loss：
+<center><img alt="7.jpg" src="https://i.loli.net/2019/08/30/OuCgQkFeSJZsAjD.jpg" /></center>
+正如我之前提到的，成本是这些绝对误差的平均值(MAE)。</p>
+<p><strong>与MSE相比，MAE成本对异常值更加健壮</strong>。但是，在数学方程中处理绝对或模数运算符并不容易。我们可以认为这是MAE的缺点。</p>
+<p>以下是MAE成本更新权重的代码</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">update_weights_MAE</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">learning_rate</span><span class="p">):</span>
+    <span class="n">m_deriv</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">b_deriv</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">N</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
+        <span class="c1">#计算偏导数</span>
+        <span class="c1"># -x(y - (mx + b)) / |mx + b|</span>
+        <span class="n">m_deriv</span> <span class="o">+=</span> <span class="o">-</span> <span class="n">X</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">Y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="p">(</span><span class="n">m</span><span class="o">*</span><span class="n">X</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">b</span><span class="p">))</span> <span class="o">/</span> <span class="nb">abs</span><span class="p">(</span><span class="n">Y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="p">(</span><span class="n">m</span><span class="o">*</span><span class="n">X</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">b</span><span class="p">))</span>
+        <span class="c1"># -(y - (mx + b)) / |mx + b|</span>
+        <span class="n">b_deriv</span> <span class="o">+=</span> <span class="o">-</span><span class="p">(</span><span class="n">Y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="p">(</span><span class="n">m</span><span class="o">*</span><span class="n">X</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">b</span><span class="p">))</span> <span class="o">/</span> <span class="nb">abs</span><span class="p">(</span><span class="n">Y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="p">(</span><span class="n">m</span><span class="o">*</span><span class="n">X</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">b</span><span class="p">))</span>
+    <span class="c1">#我们减去它，因为导数指向最陡的上升方向</span>
+    <span class="n">m</span> <span class="o">-=</span> <span class="p">(</span><span class="n">m_deriv</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">N</span><span class="p">))</span> <span class="o">*</span> <span class="n">learning_rate</span>
+    <span class="n">b</span> <span class="o">-=</span> <span class="p">(</span><span class="n">b_deriv</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">N</span><span class="p">))</span> <span class="o">*</span> <span class="n">learning_rate</span>
+    <span class="k">return</span> <span class="n">m</span><span class="p">,</span> <span class="n">b</span>
+</pre></div>
+</td></tr></table>
+
+<p>在不同学习速率中分别迭代500次后，我们得到以下图：
+<center><img alt="8.png" src="https://i.loli.net/2019/08/30/aW6ngx4d3SjON1t.png" /></center></p>
+<h3 id="huber">Huber损失<a class="headerlink" href="#huber" title="Permanent link">&para;</a></h3>
+<p>Huber损失结合了MSE和MAE的最佳特性。对于较小的误差，它是二次的，否则是线性的(对于其梯度也是如此)。Huber损失需要确定δ参数：
+<center><img alt="9.jpg" src="https://i.loli.net/2019/08/30/YL82QbKRkP6HVjI.jpg" /></center></p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">update_weights_Huber</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">delta</span><span class="p">,</span> <span class="n">learning_rate</span><span class="p">):</span>
+    <span class="n">m_deriv</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">b_deriv</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">N</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
+        <span class="c1"># 小值的二次导数，大值的线性导数</span>
+        <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">Y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">m</span><span class="o">*</span><span class="n">X</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">b</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">delta</span><span class="p">:</span>
+            <span class="n">m_deriv</span> <span class="o">+=</span> <span class="o">-</span><span class="n">X</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">Y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="p">(</span><span class="n">m</span><span class="o">*</span><span class="n">X</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">b</span><span class="p">))</span>
+            <span class="n">b_deriv</span> <span class="o">+=</span> <span class="o">-</span> <span class="p">(</span><span class="n">Y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="p">(</span><span class="n">m</span><span class="o">*</span><span class="n">X</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">b</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">m_deriv</span> <span class="o">+=</span> <span class="n">delta</span> <span class="o">*</span> <span class="n">X</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="p">((</span><span class="n">m</span><span class="o">*</span><span class="n">X</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">b</span><span class="p">)</span> <span class="o">-</span> <span class="n">Y</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">/</span> <span class="nb">abs</span><span class="p">((</span><span class="n">m</span><span class="o">*</span><span class="n">X</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">b</span><span class="p">)</span> <span class="o">-</span> <span class="n">Y</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+            <span class="n">b_deriv</span> <span class="o">+=</span> <span class="n">delta</span> <span class="o">*</span> <span class="p">((</span><span class="n">m</span><span class="o">*</span><span class="n">X</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">b</span><span class="p">)</span> <span class="o">-</span> <span class="n">Y</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">/</span> <span class="nb">abs</span><span class="p">((</span><span class="n">m</span><span class="o">*</span><span class="n">X</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">b</span><span class="p">)</span> <span class="o">-</span> <span class="n">Y</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+    <span class="c1">#我们减去它，因为导数指向最陡的上升方向</span>
+    <span class="n">m</span> <span class="o">-=</span> <span class="p">(</span><span class="n">m_deriv</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">N</span><span class="p">))</span> <span class="o">*</span> <span class="n">learning_rate</span>
+    <span class="n">b</span> <span class="o">-=</span> <span class="p">(</span><span class="n">b_deriv</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">N</span><span class="p">))</span> <span class="o">*</span> <span class="n">learning_rate</span>
+    <span class="k">return</span> <span class="n">m</span><span class="p">,</span> <span class="n">b</span>
+</pre></div>
+</td></tr></table>
+
+<p>我们以0.0001的学习速率分别对δ参数的不同值进行500次权重更新迭代得到下图：
+<center><img alt="10.png" src="https://i.loli.net/2019/08/30/qab68XprIEFj75l.png" /></center></p>
+<p>Huber损失对于异常值比MSE更强。<strong>它用于稳健回归(robust regression)，M估计法(M-estimator)和可加模型(additive model)。Huber损失的变体也可以用于分类</strong>。</p>
+<h3 id="_7">二分类损失函数<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h3>
+<p>意义如其名。二分类是指将物品分配到两个类中的一个。该分类基于应用于输入特征向量的规则。二分类的例子例如，根据邮件的主题将电子邮件分类为垃圾邮件或非垃圾邮件。</p>
+<p>我将在乳腺癌数据集^2上说明这些二分类损失函数。
+我们希望根据平均半径，面积，周长等特征将肿瘤分类为"<strong>恶性(Malignant)</strong>"或"<strong>良性(Benign)</strong>"。为简化起见，我们将仅使用两个输入特征(X_1和X_2)，即"<strong>最差区域(worst area)</strong>"和"<strong>平均对称性(mean symmetry)</strong>"用于分类。Y是二值的，为0(恶性)或1(良性)。</p>
+<p>这是我们数据的散点图：
+<center><img alt="11.png" src="https://i.loli.net/2019/08/30/ib1VNS4l3RUBda7.png" /></center></p>
+<h4 id="_8">二元交叉熵损失<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h4>
+<p>让我们从理解术语"熵"开始。通常，我们使用熵来表示无序或不确定性。测量具有概率分布p(X)的随机变量X：
+<center><img alt="12.jpg" src="https://i.loli.net/2019/08/30/6Bf9FqMgTn42jRd.jpg" /></center>
+负号用于使最后的结果为正数。</p>
+<blockquote>
+<p>概率分布的熵值越大，表明分布的不确定性越大。同样，一个较小的值代表一个更确定的分布。</p>
+</blockquote>
+<p>这使得二元交叉熵适合作为损失函数(<strong>你希望最小化其值</strong>)。我们对输出概率p的分类模型使用<strong>二元交叉熵损失</strong>。
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
+2</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>元素属于第1类(或正类)的概率=p
+元素属于第0类(或负类)的概率=1-p
+</pre></div>
+</td></tr></table>
+然后，输出标签y(可以取值0和1)的交叉熵损失和和预测概率p定义为：
+<center><img alt="13.jpg" src="https://i.loli.net/2019/08/30/YUkCyjNQgaVIBXW.jpg" /></center>
+这也称为Log-Loss(对数损失)。为了计算概率p，我们可以使用sigmoid函数。这里，z是我们输入功能的函数：
+<center><img alt="14.jpg" src="https://i.loli.net/2019/08/30/oX3BucY8Ed5bqiw.jpg" /></center>
+sigmoid函数的范围是[0,1]，这使得它适合于计算概率。
+<center><img alt="15.png" src="https://i.loli.net/2019/08/30/OtwxZWp6hILyGHP.png" /></center></p>
+<p>推荐你引用以下代码时先尝试自己计算出梯度
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">update_weights_BCE</span><span class="p">(</span><span class="n">m1</span><span class="p">,</span> <span class="n">m2</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">X1</span><span class="p">,</span> <span class="n">X2</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">learning_rate</span><span class="p">):</span>
+    <span class="n">m1_deriv</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">m2_deriv</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">b_deriv</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">N</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">X1</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">math</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">m1</span><span class="o">*</span><span class="n">X1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">m2</span><span class="o">*</span><span class="n">X2</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">b</span><span class="p">)))</span>
+        <span class="c1"># 计算偏导数</span>
+        <span class="n">m1_deriv</span> <span class="o">+=</span> <span class="o">-</span><span class="n">X1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">s</span> <span class="o">-</span> <span class="n">Y</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+        <span class="n">m2_deriv</span> <span class="o">+=</span> <span class="o">-</span><span class="n">X2</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">s</span> <span class="o">-</span> <span class="n">Y</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+        <span class="n">b_deriv</span> <span class="o">+=</span> <span class="o">-</span><span class="p">(</span><span class="n">s</span> <span class="o">-</span> <span class="n">Y</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+    <span class="c1"># 我们减去它，因为导数指向最陡的上升方向</span>
+    <span class="n">m1</span> <span class="o">-=</span> <span class="p">(</span><span class="n">m1_deriv</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">N</span><span class="p">))</span> <span class="o">*</span> <span class="n">learning_rate</span>
+    <span class="n">m2</span> <span class="o">-=</span> <span class="p">(</span><span class="n">m2_deriv</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">N</span><span class="p">))</span> <span class="o">*</span> <span class="n">learning_rate</span>
+    <span class="n">b</span> <span class="o">-=</span> <span class="p">(</span><span class="n">b_deriv</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">N</span><span class="p">))</span> <span class="o">*</span> <span class="n">learning_rate</span>
+    <span class="k">return</span> <span class="n">m1</span><span class="p">,</span> <span class="n">m2</span><span class="p">,</span> <span class="n">b</span>
+</pre></div>
+</td></tr></table></p>
+<p>在不同alpha值里使用权重更新规则进行1000次迭代得到下图：
+<center><img alt="16.png" src="https://i.loli.net/2019/08/30/XhFDrMCWjuNZqt2.png" /></center></p>
+<h4 id="hinge">Hinge损失<a class="headerlink" href="#hinge" title="Permanent link">&para;</a></h4>
+<p><strong>Hinge损失主要用于带有类标签-1和1的支持向量机(SVM)</strong>。因此，请确保将数据集中"恶性"类的标签从0更改为-1。</p>
+<blockquote>
+<p>Hinge损失不仅会惩罚错误的预测，还会惩罚不自信的正确预测。</p>
+</blockquote>
+<p>数据对(x，y)的Hinge损失如图：
+<center><img alt="17.jpg" src="https://i.loli.net/2019/08/30/mKvhqUpeH62Aic5.jpg" /></center></p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">update_weights_Hinge</span><span class="p">(</span><span class="n">m1</span><span class="p">,</span> <span class="n">m2</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">X1</span><span class="p">,</span> <span class="n">X2</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">learning_rate</span><span class="p">):</span>
+    <span class="n">m1_deriv</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">m2_deriv</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">b_deriv</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">N</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">X1</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
+        <span class="c1"># 计算偏导数</span>
+        <span class="k">if</span> <span class="n">Y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">*</span><span class="p">(</span><span class="n">m1</span><span class="o">*</span><span class="n">X1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">m2</span><span class="o">*</span><span class="n">X2</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">b</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">m1_deriv</span> <span class="o">+=</span> <span class="o">-</span><span class="n">X1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">Y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="n">m2_deriv</span> <span class="o">+=</span> <span class="o">-</span><span class="n">X2</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">Y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="n">b_deriv</span> <span class="o">+=</span> <span class="o">-</span><span class="n">Y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="c1"># 否则偏导数为0</span>
+    <span class="c1"># 我们减去它，因为导数指向最陡的上升方向</span>
+    <span class="n">m1</span> <span class="o">-=</span> <span class="p">(</span><span class="n">m1_deriv</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">N</span><span class="p">))</span> <span class="o">*</span> <span class="n">learning_rate</span>
+    <span class="n">m2</span> <span class="o">-=</span> <span class="p">(</span><span class="n">m2_deriv</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">N</span><span class="p">))</span> <span class="o">*</span> <span class="n">learning_rate</span>
+    <span class="n">b</span> <span class="o">-=</span> <span class="p">(</span><span class="n">b_deriv</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">N</span><span class="p">))</span> <span class="o">*</span> <span class="n">learning_rate</span>
+    <span class="k">return</span> <span class="n">m1</span><span class="p">,</span> <span class="n">m2</span><span class="p">,</span> <span class="n">b</span>
+</pre></div>
+</td></tr></table>
+
+<p>在使用三个不同的alpha值运行2000次迭代的更新函数之后，得到下图：
+<center><img alt="18.png" src="https://i.loli.net/2019/08/30/r2dmy4sDnMxvuKZ.png" /></center>
+<strong>Hinge损失简化了SVM的数学运算，同时最大化了损失(与对数损失(Log-Loss)相比)。当我们想要做实时决策而不是高度关注准确性时，就可以使用它。</strong></p>
+<h3 id="_9">多分类损失函数<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h3>
+<p>电子邮件不仅被归类为垃圾邮件或垃圾邮件(这不再是90年代了!)。它们分为各种其他类别-工作，家庭，社交，促销等。</p>
+<p>我们将使用Iris数据集^3来理解剩余的两个损失函数。我们将使用2个特征X
+萼片长度(Sepal length)和特征X花瓣宽度(Petal width)来预测鸢尾花的类别(Y) -Setosa，Versicolor或Virginica</p>
+<p>我们的任务是使用神经网络模型和Keras内置的Adam优化器来实现分类器。这是因为随着参数数量的增加，数学以及代码将变得难以理解。</p>
+<p>这是我们数据的散点图：
+<center><img alt="19.png" src="https://i.loli.net/2019/08/30/KdZh5X2SGgCfwlv.png" /></center></p>
+<h4 id="_10">多分类交叉熵损失<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h4>
+<p>多分类交叉熵损失是二元交叉熵损失的推广。输入向量Xi和相应的one-hot编码目标向量Yi的损失是：
+<center><img alt="20.jpg" src="https://i.loli.net/2019/08/30/K3y5ULq7ngPuVFw.jpg" /></center></p>
+<p>我们使用softmax函数来找到概率pij：
+<center><img alt="21.jpg" src="https://i.loli.net/2019/08/30/Tk3y74cYbZzsO86.jpg" /></center></p>
+<blockquote>
+<p>"Softmax层是接在神经网络的输出层前。Softmax层必须与输出层具有相同数量的节点。"Google Developer's Blog</p>
+</blockquote>
+<p><center><img alt="22.jpg" src="https://i.loli.net/2019/08/30/3lA6Of94ziRs2Kq.jpg" /></center>
+最后，我们的输出是具有给定输入的最大概率的类别。</p>
+<p>我们使用一个输入层和一个输出层建立一个模型，并用不同的学习速度编译它。在model.compile()语句中将损失函数指定为' categorical_crossentropy ':
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="c1"># 导入包</span>
+<span class="kn">from</span> <span class="nn">keras.layers</span> <span class="kn">import</span> <span class="n">Dense</span>
+<span class="kn">from</span> <span class="nn">keras.models</span> <span class="kn">import</span> <span class="n">Sequential</span>
+<span class="kn">from</span> <span class="nn">keras.optimizers</span> <span class="kn">import</span> <span class="n">adam</span>
+<span class="c1">#alpha设置为0.001，如adam优化器中的lr参数所示</span>
+<span class="c1"># 创建模型</span>
+<span class="n">model_alpha1</span> <span class="o">=</span> <span class="n">Sequential</span><span class="p">()</span>
+<span class="n">model_alpha1</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Dense</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="n">input_dim</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;relu&#39;</span><span class="p">))</span>
+<span class="n">model_alpha1</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Dense</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;softmax&#39;</span><span class="p">))</span>
+<span class="c1"># 编译模型</span>
+<span class="n">opt_alpha1</span> <span class="o">=</span> <span class="n">adam</span><span class="p">(</span><span class="n">lr</span><span class="o">=</span><span class="mf">0.001</span><span class="p">)</span>
+<span class="n">model_alpha1</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">loss</span><span class="o">=</span><span class="s1">&#39;categorical_crossentropy&#39;</span><span class="p">,</span> <span class="n">optimizer</span><span class="o">=</span><span class="n">opt_alpha1</span><span class="p">,</span> <span class="n">metrics</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;accuracy&#39;</span><span class="p">])</span>
+<span class="c1"># 拟合模型</span>
+<span class="c1"># dummy_Y是one-hot形式编码的</span>
+<span class="c1"># history_alpha1用于为绘图的验证和准确性评分</span>
+<span class="n">history_alpha1</span> <span class="o">=</span> <span class="n">model_alpha1</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">dataX</span><span class="p">,</span> <span class="n">dummy_Y</span><span class="p">,</span> <span class="n">validation_data</span><span class="o">=</span><span class="p">(</span><span class="n">dataX</span><span class="p">,</span> <span class="n">dummy_Y</span><span class="p">),</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></p>
+<p>在不同的学习率经过200轮训练后成本和准确度的图如下：
+<center><img alt="23.png" src="https://i.loli.net/2019/08/30/rSWCUbO8qIQhVeu.png" /></center>
+<center><img alt="24.png" src="https://i.loli.net/2019/08/30/Q6dKVqnPzx7A89j.png" /></center></p>
+<h4 id="kl">KL散度<a class="headerlink" href="#kl" title="Permanent link">&para;</a></h4>
+<p>KL散度(Kullback Leibler Divergence Loss)概率分布与另一个概率分布区别的度量。KL散度为零表示分布相同。
+<center><img alt="25.jpg" src="https://i.loli.net/2019/08/30/7gzJ8DSZNhKBf6e.jpg" /></center>
+请注意，发散函数不对称。即：
+<center><img alt="26.jpg" src="https://i.loli.net/2019/08/30/P2GKx3QqgR8nSkH.jpg" /></center>
+这就是为什么KL散度不能用作距离度量的原因。</p>
+<p>我将描述使用KL散度作为损失函数而不进行数学计算的基本方法。在给定一些近似分布Q的情况下，我们希望近似关于输入特征的目标变量的真实概率分布P. 由于KL散度不对称，我们可以通过两种方式实现：
+<center><img alt="27.jpg" src="https://i.loli.net/2019/08/30/jY7ptxwJzrgv8Ws.jpg" /></center></p>
+<p>第一种方法用于监督学习，第二种方法用于强化学习。KL散度在功能上类似于多分类交叉熵，KL散度也可以称为P相对于Q的相对熵：
+<center><img alt="28.jpg" src="https://i.loli.net/2019/08/30/GdZXB3eIhAgkTbW.jpg" /></center>
+我们在compile()函数中指定'kullback_leibler_divergence'作为损失函数，就像我们之前在处理多分类交叉熵损失时所做的那样。</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="c1"># 导入包</span>
+<span class="kn">from</span> <span class="nn">keras.layers</span> <span class="kn">import</span> <span class="n">Dense</span>
+<span class="kn">from</span> <span class="nn">keras.models</span> <span class="kn">import</span> <span class="n">Sequential</span>
+<span class="kn">from</span> <span class="nn">keras.optimizers</span> <span class="kn">import</span> <span class="n">adam</span>
+<span class="c1"># alpha设置为0.001，如adam优化器中的lr参数所示</span>
+<span class="c1">#  创建模型</span>
+<span class="n">model_alpha1</span> <span class="o">=</span> <span class="n">Sequential</span><span class="p">()</span>
+<span class="n">model_alpha1</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Dense</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="n">input_dim</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;relu&#39;</span><span class="p">))</span>
+<span class="n">model_alpha1</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Dense</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;softmax&#39;</span><span class="p">))</span>
+<span class="c1"># 编译模型</span>
+<span class="n">opt_alpha1</span> <span class="o">=</span> <span class="n">adam</span><span class="p">(</span><span class="n">lr</span><span class="o">=</span><span class="mf">0.001</span><span class="p">)</span>
+<span class="n">model_alpha1</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">loss</span><span class="o">=</span><span class="s1">&#39;kullback_leibler_divergence&#39;</span><span class="p">,</span> <span class="n">optimizer</span><span class="o">=</span><span class="n">opt_alpha1</span><span class="p">,</span> <span class="n">metrics</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;accuracy&#39;</span><span class="p">])</span>
+<span class="c1"># 拟合模型</span>
+<span class="c1"># dummy_Y是one-hot形式编码的</span>
+<span class="c1"># history_alpha1用于为绘图的验证和准确性评分</span>
+<span class="n">history_alpha1</span> <span class="o">=</span> <span class="n">model_alpha1</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">dataX</span><span class="p">,</span> <span class="n">dummy_Y</span><span class="p">,</span> <span class="n">validation_data</span><span class="o">=</span><span class="p">(</span><span class="n">dataX</span><span class="p">,</span> <span class="n">dummy_Y</span><span class="p">),</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</td></tr></table>
+
+<p>在不同的学习率经过200轮训练后成本和准确度的图如下：
+<center><img alt="29.png" src="https://i.loli.net/2019/08/30/fzeu2ZUMKaitsG4.png" /></center>
+<center><img alt="30.png" src="https://i.loli.net/2019/08/30/ylYjUp9k1Cwxr8K.png" /></center>
+<strong>与多分类分类相比，KL散度更常用于逼近复杂函数。我们在使用变分自动编码器(VAE)等深度生成模型时经常使用KL散度。</strong></p>
+                
+                  
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid">
+        
+          <a href="../sjc/" title="4. 时间戳" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
+            </div>
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  后退
+                </span>
+                4. 时间戳
+              </span>
+            </div>
+          </a>
+        
+        
+          <a href="../ad/" title="6. 鞍点" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  前进
+                </span>
+                6. 鞍点
+              </span>
+            </div>
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        powered by
+        <a href="https://www.mkdocs.org">MkDocs</a>
+        and
+        <a href="https://squidfunk.github.io/mkdocs-material/">
+          Material for MkDocs</a>
+      </div>
+      
+        
+  <div class="md-footer-social">
+    <link rel="stylesheet" href="../../assets/fonts/font-awesome.css">
+    
+      <a href="https://github.com/WangRongsheng" class="md-footer-social__link fa fa-github"></a>
+    
+  </div>
+
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../../assets/javascripts/application.5e60981f.js"></script>
+      
+        
+        
+          
+          <script src="../../assets/javascripts/lunr/lunr.stemmer.support.js"></script>
+          
+            
+              
+              
+            
+          
+          
+        
+      
+      <script>app.initialize({version:"1.0.4",url:{base:"../.."}})</script>
+      
+    
+    
+      
+    
+  </body>
+</html>
